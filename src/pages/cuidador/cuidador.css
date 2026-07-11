@@ -1,0 +1,130 @@
+
+/* CUIDADOR (perfil público del cuidador) */
+
+/* Damos estilo a la página centrándola y colocando sus bloques con flex en columna */
+.Perfil{
+    max-width: 50rem;
+    margin: 0 auto;
+    padding: 2rem 1.5rem;
+
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: flex-start;
+    align-items: stretch;
+    gap: 1.5rem;
+}
+
+.Perfil-cargando{
+    padding: 2rem;
+
+    text-align: center;
+}
+
+.Perfil-volver{
+    display: inline;
+
+    font-weight: 600;
+    color: var(--color-principal);
+}
+
+/* Damos estilo a la cabecera colocando con flex la foto, los datos y el botón de reservar */
+.Perfil-cabecera{
+    background-color: var(--color-blanco);
+    padding: 1.5rem;
+    border: 1px solid var(--color-borde);
+    border-radius: var(--radio-grande);
+
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.Perfil-img{
+    width: 6rem;
+    height: 6rem;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.Perfil-datos{
+    flex: 1;
+}
+
+.Perfil-nombre{
+    font-weight: 700;
+    font-size: 1.8em;
+}
+
+.Perfil-info{
+    color: var(--color-texto-suave);
+}
+
+/* Damos estilo a los bloques de contenido (Datos y Servicios) */
+.Perfil-bloque{
+    background-color: var(--color-blanco);
+    padding: 1.5rem;
+    border: 1px solid var(--color-borde);
+    border-radius: var(--radio-grande);
+}
+
+.Perfil-bloque h2{
+    margin-bottom: 1rem;
+
+    font-size: 1.3em;
+    font-weight: 600;
+}
+
+.Perfil-bloque p{
+    margin-bottom: .5rem;
+
+    color: var(--color-texto-suave);
+}
+
+/* Etiqueta de un dato (Edad:, Animales que cuida:…) en negrita por CSS */
+.Perfil-etiqueta{
+    font-weight: 700;
+}
+
+/* Colocamos con grid de 2 columnas las tarjetas de servicios */
+.Perfil-servicios{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+}
+
+/* Damos estilo a cada tarjeta de servicio con su nombre y precio */
+.Servicio{
+    background-color: var(--color-cielo);
+    padding: 1rem;
+    border-radius: var(--radio);
+
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+}
+
+.Servicio-nombre{
+    font-weight: 600;
+}
+
+.Servicio-precio{
+    font-weight: 700;
+    color: var(--color-principal);
+}
+
+/* Para móviles pasamos la cabecera a columna y los servicios a una sola columna */
+@media (max-width: 480px){
+    .Perfil-cabecera{
+        flex-flow: column nowrap;
+
+        text-align: center;
+    }
+
+    .Perfil-servicios{
+        grid-template-columns: 1fr;
+    }
+}

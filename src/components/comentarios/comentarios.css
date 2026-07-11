@@ -1,0 +1,120 @@
+
+/* COMENTARIOS (carrusel de comentarios en la página del cuidador) */
+
+/* La ventana con overflow hidden deja ver solo el comentario actual del carrusel,
+y con position relative sirve de referencia para colocar las flechas */
+.Comentarios-ventana{
+    overflow: hidden;
+
+    position: relative;
+}
+
+/* Fila de comentarios que el translate desplaza de una en una según el comentario actual */
+.Comentarios-wrapper{
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-start;
+    align-items: stretch;
+
+    transition: translate .5s ease;
+}
+
+/* Damos estilo a la tarjeta de cada comentario: ocupa la ventana entera sin encogerse
+y el padding lateral deja hueco a las flechas */
+.Comentario{
+    flex: 0 0 100%;
+    background-color: var(--color-cielo);
+    padding: .9rem 3rem;
+    border-radius: var(--radio);
+
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+    gap: .5rem;
+
+    text-align: center;
+}
+
+.Comentario-texto{
+    font-size: 1em;
+    color: var(--color-texto);
+}
+
+.Comentario-usuario{
+    font-weight: 600;
+    font-size: .85em;
+    color: var(--color-texto-suave);
+}
+
+/* Flechas colocadas con position a cada lado, centradas verticalmente como en busca tu peli */
+.Comentarios-flecha{
+    width: 2rem;
+    height: 2rem;
+    background-color: var(--color-blanco);
+    padding: .35rem;
+    border: 1px solid var(--color-borde);
+    border-radius: 50%;
+
+    color: var(--color-principal);
+
+    position: absolute;
+    top: 50%;
+    translate: 0 -50%;
+    z-index: 1;
+}
+
+/* El svg de la flecha ocupa todo el botón */
+.Comentarios-svgFlecha{
+    width: 100%;
+    height: 100%;
+}
+
+.Comentarios-flecha:hover{
+    background-color: var(--color-principal);
+    color: var(--color-blanco);
+}
+
+.Comentarios-flecha--prev{
+    left: .5rem;
+}
+
+.Comentarios-flecha--next{
+    right: .5rem;
+}
+
+/* Puntos de navegación centrados bajo el carrusel */
+.Comentarios-ul{
+    margin-top: 1rem;
+
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Cada punto es un botón transparente de tamaño táctil (44px) con el texto oculto;
+el círculo visible lo dibuja el ::before centrado */
+.Comentarios-dot{
+    width: 2.75rem;
+    height: 2.75rem;
+
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: center;
+
+    font-size: 0;
+}
+
+.Comentarios-dot::before{
+    content: '';
+    width: .65rem;
+    height: .65rem;
+    background-color: var(--color-borde);
+    border-radius: 50%;
+}
+
+.Comentarios-dot--activo::before{
+    background-color: var(--color-principal);
+}

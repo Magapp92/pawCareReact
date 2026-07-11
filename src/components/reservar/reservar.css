@@ -1,0 +1,173 @@
+
+/* RESERVAR (modal de reserva) */
+
+/* Damos estilo al botón que abre el modal añadiendo el efecto hover */
+.Reservar-boton{
+    background-color: var(--color-principal);
+    padding: .6rem 1.1rem;
+    border-radius: var(--radio);
+
+    font-weight: 600;
+    color: var(--color-blanco);
+}
+
+.Reservar-boton:hover{
+    background-color: var(--color-principal-oscuro);
+}
+
+/* Fondo oscuro que cubre la pantalla, con position fixed y z-index para superponerse a todo;
+como en el lightbox está oculto con opacity y pointer-events hasta que se le añade isVisible */
+.Reservar-fondo{
+    background-color: rgba(25, 28, 29, 0.45);
+    padding: 1rem;
+
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+
+    position: fixed;
+    inset: 0;
+    /* Nivel 3 de la escala de capas: por encima del header y las flechas */
+    z-index: 3;
+
+    opacity: 0;
+    pointer-events: none;
+}
+
+.Reservar-fondo.isVisible{
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* Damos estilo a la tarjeta del modal y colocamos su contenido con flex en columna */
+.Reservar-modal{
+    width: 90%;
+    max-width: 28rem;
+    /* Limitado al alto de pantalla con scroll interno para móviles bajos */
+    max-height: calc(100vh - 2rem);
+    overflow-y: auto;
+    background-color: var(--color-blanco);
+    padding: 1.75rem;
+    border-radius: var(--radio-grande);
+    box-shadow: var(--sombra);
+
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: flex-start;
+    align-items: stretch;
+    gap: 1rem;
+}
+
+.Reservar-modal h2{
+    font-size: 1.3em;
+    font-weight: 600;
+}
+
+/* Damos estilo a cada campo del formulario agrupando la etiqueta y su input */
+.Reservar-campo{
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: flex-start;
+    align-items: stretch;
+    gap: .35rem;
+}
+
+.Reservar-campo span{
+    font-weight: 600;
+    font-size: .9em;
+    color: var(--color-texto-suave);
+}
+
+.Reservar-campo input,
+.Reservar-campo select{
+    width: 100%;
+    min-width: 0;
+    background-color: var(--color-fondo);
+    padding: .7rem 1rem;
+    border: 1px solid var(--color-borde);
+    border-radius: var(--radio);
+}
+
+/* Colocamos con flex en columna la lista de mascotas a elegir */
+.Reservar-mascotas{
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: flex-start;
+    align-items: stretch;
+    gap: .4rem;
+}
+
+/* Damos estilo a cada mascota seleccionable con su checkbox */
+.Reservar-mascota{
+    padding: .6rem .85rem;
+    border: 1px solid var(--color-borde);
+    border-radius: var(--radio);
+
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-start;
+    align-items: center;
+    gap: .6rem;
+
+    cursor: pointer;
+}
+
+/* El checkbox no debe estirarse como los inputs de fecha */
+.Reservar-mascota input{
+    width: auto;
+    flex: none;
+}
+
+/* Colocamos con flex las parejas de fechas para que compartan fila */
+.Reservar-fechas{
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: flex-start;
+    align-items: stretch;
+    gap: 1rem;
+}
+
+.Reservar-fechas .Reservar-campo{
+    flex: 1;
+    min-width: 9rem;
+}
+
+/* Colocamos con flex los botones de acción alineados a la derecha */
+.Reservar-acciones{
+    margin-top: .5rem;
+
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-end;
+    align-items: center;
+    gap: .75rem;
+}
+
+/* Damos estilo a los botones de cancelar y confirmar añadiendo el efecto hover */
+.Reservar-cancelar{
+    padding: .6rem 1.1rem;
+    border: 1px solid var(--color-rojo);
+    border-radius: var(--radio);
+
+    font-weight: 600;
+    color: var(--color-rojo);
+}
+
+.Reservar-cancelar:hover{
+    background-color: var(--color-rojo);
+    color: var(--color-blanco);
+}
+
+.Reservar-confirmar{
+    background-color: var(--color-principal);
+    padding: .6rem 1.1rem;
+    border-radius: var(--radio);
+
+    font-weight: 600;
+    color: var(--color-blanco);
+}
+
+.Reservar-confirmar:hover{
+    background-color: var(--color-principal-oscuro);
+}

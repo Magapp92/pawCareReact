@@ -1,0 +1,234 @@
+
+/* INICIO (buscador y lista de cuidadores) */
+
+/* Damos estilo a la sección hero centrándola en la página */
+.Inicio{
+    max-width: 75rem;
+    margin: 0 auto;
+    padding: 2.5rem 1.5rem 1rem;
+}
+
+/* El clamp baja el título fluido de 2rem a 1.7rem en móviles, sin salto de media */
+.Inicio-h1{
+    margin-bottom: .5rem;
+
+    font-weight: 700;
+    font-size: clamp(1.7rem, 5vw, 2rem);
+}
+
+.Inicio-subtitulo{
+    max-width: 40rem;
+    margin-bottom: 1.5rem;
+
+    color: var(--color-texto-suave);
+}
+
+/* Damos estilo al buscador colocando sus campos con flex para que compartan fila */
+.Inicio-buscador{
+    background-color: var(--color-blanco);
+    padding: 1rem;
+    border: 1px solid var(--color-borde);
+    border-radius: var(--radio-grande);
+
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 1rem;
+}
+
+.Inicio-buscador input,
+.Inicio-buscador select{
+    flex: 1;
+    min-width: 12rem;
+    background-color: var(--color-fondo);
+    padding: .75rem 1rem;
+    border: 1px solid var(--color-borde);
+    border-radius: var(--radio);
+}
+
+/* Damos estilo al botón de buscar añadiendo el efecto hover */
+.Inicio-buscar{
+    background-color: var(--color-principal);
+    padding: .75rem 1.5rem;
+    border-radius: var(--radio);
+
+    font-weight: 600;
+    color: var(--color-blanco);
+}
+
+.Inicio-buscar:hover{
+    background-color: var(--color-principal-oscuro);
+}
+
+/* Colocamos con flex las pills de animales debajo del buscador */
+.Inicio-animales{
+    width: 100%;
+
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: flex-start;
+    align-items: center;
+    gap: .5rem;
+}
+
+/* Pills de animales seleccionables; la seleccionada pasa a verde con texto blanco */
+.Inicio-animal{
+    background-color: var(--color-cielo);
+    padding: .3rem .9rem;
+    border-radius: var(--radio-pill);
+
+    font-size: .9em;
+    color: var(--color-principal);
+}
+
+.Inicio-animal.isActive{
+    background-color: var(--color-principal);
+    color: var(--color-blanco);
+}
+
+/* Damos estilo a la sección de resultados centrándola en la página */
+.Inicio-resultados{
+    max-width: 75rem;
+    margin: 0 auto;
+    padding: 1.5rem;
+}
+
+.Inicio-resultados h2{
+    margin-bottom: 1rem;
+
+    font-size: 1.5em;
+}
+
+/* Colocamos con grid la lista de tarjetas de cuidadores */
+.Inicio-lista{
+    /* Reserva espacio mientras llegan los cuidadores para que el footer no salte */
+    min-height: 70vh;
+
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+}
+
+/* Damos estilo a la tarjeta de cada cuidador con grid de 3 columnas: foto, info y lateral,
+añadimos una transición para el efecto de elevación al hacer hover;
+sin transform en el hover porque rompería el position fixed del modal de reservar que vive dentro */
+.Cuidador{
+    background-color: var(--color-blanco);
+    padding: 1.25rem 1.5rem;
+    border: 1px solid var(--color-borde);
+    border-radius: var(--radio-grande);
+    box-shadow: 0 1px 3px rgba(25, 28, 29, 0.04);
+
+    display: grid;
+    grid-template-columns: 13rem 1fr auto;
+    align-items: start;
+    gap: 1.5rem;
+
+    transition: box-shadow .2s ease;
+}
+
+.Cuidador:hover{
+    box-shadow: var(--sombra);
+}
+
+/* Marco cuadrado que la foto llena con cover sin dejar bandas */
+.Cuidador-img{
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1 / 1;
+    border-radius: var(--radio);
+    object-fit: cover;
+}
+
+/* El JSX usa Cuidador-info en el div y en el p, por eso diferenciamos por etiqueta;
+el min-height iguala la altura de la foto para repartir el contenido con space-between */
+div.Cuidador-info{
+    min-height: 13rem;
+
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: .5rem;
+}
+
+p.Cuidador-info{
+    font-size: .9em;
+    color: var(--color-texto-suave);
+}
+
+.Cuidador-nombre{
+    font-weight: 700;
+    font-size: 1.3em;
+}
+
+/* Colocamos con flex las etiquetas de animales que atiende */
+.Cuidador-etiquetas{
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: flex-start;
+    align-items: center;
+    gap: .4rem;
+}
+
+.Cuidador-etiqueta{
+    background-color: var(--color-cielo);
+    padding: .2rem .7rem;
+    border-radius: var(--radio-pill);
+
+    font-size: .8em;
+    color: var(--color-principal);
+}
+
+.Cuidador-link{
+    display: inline;
+    margin-top: 1.25rem;
+
+    font-weight: 600;
+    font-size: 1.15em;
+    color: var(--color-principal);
+}
+
+/* Colocamos con flex en columna el precio y el botón de reservar alineados a la derecha
+y centrados con respecto a la altura de la tarjeta */
+.Cuidador-lateral{
+    align-self: center;
+
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: flex-end;
+    gap: .75rem;
+}
+
+.Cuidador-precio{
+    font-weight: 700;
+    font-size: 1.5em;
+    color: var(--color-principal);
+    white-space: nowrap;
+}
+
+/* Para tablets pasamos la tarjeta a una sola columna con el precio y el botón a la izquierda */
+@media (max-width: 930px){
+    .Cuidador{
+        grid-template-columns: 1fr;
+    }
+
+    /* La foto apilada se limita y centra para no ocupar una altura exagerada */
+    .Cuidador-img{
+        max-width: 22rem;
+        margin: 0 auto;
+    }
+
+    .Cuidador-lateral{
+        align-items: flex-start;
+    }
+}
+
+/* Para pantallas grandes damos más aire entre las tarjetas */
+@media (min-width: 1600px){
+    .Inicio-lista{
+        gap: 2rem;
+    }
+}

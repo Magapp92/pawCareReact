@@ -1,0 +1,628 @@
+
+/* PERFIL CUIDADOR (panel del cuidador) */
+
+/* El JSX no tiene contenedor .Panel: el grid hace de raíz de la página,
+lo centramos y lo dividimos en 2 columnas: lateral y principal */
+.Panel-grid{
+    max-width: 75rem;
+    margin: 0 auto;
+    padding: 2rem 1.5rem;
+
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    align-items: start;
+    gap: 1.5rem;
+}
+
+.Cargando{
+    padding: 2rem;
+
+    text-align: center;
+}
+
+/* Colocamos con flex en columna los bloques de cada zona del panel */
+.Panel-lateral{
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: flex-start;
+    align-items: stretch;
+    gap: 1.5rem;
+}
+
+.Panel-principal{
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: flex-start;
+    align-items: stretch;
+    gap: 1.5rem;
+}
+
+/* Damos estilo a los bloques de contenido del panel */
+.Panel-bloque{
+    background-color: var(--color-blanco);
+    padding: 1.5rem;
+    border: 1px solid var(--color-borde);
+    border-radius: var(--radio-grande);
+}
+
+.Panel-bloque h2{
+    margin-bottom: 1rem;
+
+    font-size: 1.3em;
+    font-weight: 600;
+    color: var(--color-principal-oscuro);
+}
+
+.Panel-bloque h3{
+    margin: 1rem 0 .5rem;
+
+    font-size: 1em;
+}
+
+.Panel-bloque p{
+    margin-bottom: .5rem;
+
+    color: var(--color-texto-suave);
+}
+
+/* Perfil (lateral): colocamos con flex en columna la foto, el nombre y la info */
+.Panel-perfil{
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: flex-start;
+    align-items: center;
+    gap: .4rem;
+
+    text-align: center;
+}
+
+.Panel-img{
+    width: 9rem;
+    height: 9rem;
+    border: 4px solid var(--color-cielo);
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.Panel-nombre{
+    font-weight: 700;
+    font-size: 1.4em;
+}
+
+.Panel-info{
+    font-size: .9em;
+    color: var(--color-texto-suave);
+}
+
+.Panel-miembro{
+    font-size: .85em;
+    color: var(--color-texto-suave);
+}
+
+/* Colocamos con flex las etiquetas de servicios */
+.Panel-servicios{
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: flex-start;
+    align-items: center;
+    gap: .4rem;
+}
+
+.Panel-etiqueta{
+    background-color: var(--color-cielo);
+    padding: .3rem .8rem;
+    border-radius: var(--radio-pill);
+
+    font-size: .8em;
+    color: var(--color-principal);
+}
+
+/* Etiqueta de un dato (Edad:, Ubicación:…) en negrita y separada de su valor */
+.Panel-dato{
+    margin-right: .35rem;
+
+    font-weight: 700;
+}
+
+/* Lista de animales que atiende el cuidador (pills con contorno) */
+.Panel-animales{
+    margin-bottom: 1rem;
+
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: flex-start;
+    align-items: center;
+    gap: .4rem;
+}
+
+.Panel-animal{
+    padding: .3rem .8rem;
+    border: 1px solid var(--color-borde);
+    border-radius: var(--radio-pill);
+
+    font-size: .8em;
+    color: var(--color-texto-suave);
+}
+
+/* Damos estilo a la cabecera de cada bloque con el título y el botón de editar */
+.Panel-cabecera{
+    margin-bottom: 1rem;
+
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.Panel-cabecera h2{
+    margin-bottom: 0;
+}
+
+/* Contador de solicitudes pendientes, visible sin abrir el desplegable */
+.Panel-contador{
+    margin-left: .5rem;
+
+    font-size: .8em;
+    font-weight: 700;
+    color: var(--color-principal);
+}
+
+.Panel-editar{
+    padding: .5rem .9rem;
+    border: 1px solid var(--color-principal);
+    border-radius: var(--radio);
+
+    font-weight: 600;
+    font-size: .9em;
+    color: var(--color-principal);
+}
+
+.Panel-editar:hover{
+    background-color: var(--color-principal);
+    color: var(--color-blanco);
+}
+
+/* Bloques desplegables más compactos: menos padding y sin el margen de la cabecera,
+la separación con el contenido la pone el propio acordeón al abrirse */
+.Panel-principal .Panel-bloque{
+    padding: 1rem 1.5rem;
+}
+
+.Panel-principal .Panel-cabecera{
+    margin-bottom: 0;
+}
+
+/* Botón del desplegable con la flecha a la derecha a la altura del título */
+.Panel-desplegar{
+    width: 2rem;
+    height: 2rem;
+
+    color: var(--color-principal-oscuro);
+}
+
+/* La flecha gira cuando el acordeón está abierto */
+.Panel-flecha{
+    transition: rotate .3s ease;
+}
+
+.Panel-flecha.isActive{
+    rotate: 180deg;
+}
+
+/* Acordeón oculto hasta que la flecha le añade la clase isActive, como en las tabs */
+.Panel-acordeon{
+    margin-top: 1rem;
+
+    display: none;
+}
+
+.Panel-acordeon.isActive{
+    display: block;
+}
+
+/* Formulario de edición de datos: colocamos los campos con flex en columna */
+.Panel-form{
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: flex-start;
+    align-items: stretch;
+    gap: .75rem;
+}
+
+.Panel-campo{
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: flex-start;
+    align-items: stretch;
+    gap: .3rem;
+}
+
+.Panel-campo span{
+    font-weight: 600;
+    font-size: .85em;
+    color: var(--color-texto-suave);
+}
+
+.Panel-form input{
+    width: 100%;
+    background-color: var(--color-fondo);
+    padding: .55rem .8rem;
+    border: 1px solid var(--color-borde);
+    border-radius: var(--radio);
+}
+
+/* Añadimos propiedades a los inputs cuando están en focus */
+.Panel-form input:focus{
+    outline: none;
+    border-color: var(--color-principal);
+}
+
+.Panel-subtitulo{
+    margin-top: .5rem;
+
+    font-weight: 600;
+    font-size: .9em;
+}
+
+/* Damos estilo a cada fila de servicio editable con su checkbox, nombre y precio */
+.Panel-servicioEdit{
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-start;
+    align-items: center;
+    gap: .6rem;
+}
+
+.Panel-servicioEdit input[type="checkbox"]{
+    width: auto;
+    flex: none;
+}
+
+.Panel-servicioNombre{
+    flex: 1;
+
+    font-size: .9em;
+}
+
+.Panel-precioCampo{
+    flex: none;
+
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-end;
+    align-items: center;
+    gap: .25rem;
+}
+
+/* Ancho fijo y mayor especificidad para que no le gane el width:100% de arriba */
+.Panel-form .Panel-precio{
+    width: 4rem;
+    flex: none;
+}
+
+.Panel-euro{
+    color: var(--color-texto-suave);
+}
+
+/* Colocamos con flex los botones de acción alineados a la derecha */
+.Panel-acciones{
+    margin-top: .5rem;
+
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-end;
+    align-items: center;
+    gap: .5rem;
+}
+
+/* Damos estilo a los botones de guardar y cancelar añadiendo el efecto hover */
+.Panel-guardar{
+    background-color: var(--color-principal);
+    padding: .55rem 1.1rem;
+    border-radius: var(--radio);
+
+    font-weight: 600;
+    color: var(--color-blanco);
+}
+
+.Panel-guardar:hover{
+    background-color: var(--color-principal-oscuro);
+}
+
+.Panel-cancelar{
+    padding: .55rem 1.1rem;
+    border: 1px solid var(--color-rojo);
+    border-radius: var(--radio);
+
+    font-weight: 600;
+    color: var(--color-rojo);
+}
+
+.Panel-cancelar:hover{
+    background-color: var(--color-rojo);
+    color: var(--color-blanco);
+}
+
+/* Solicitudes pendientes: colocamos con flex en columna la lista de solicitudes */
+.Panel-solicitudes{
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: flex-start;
+    align-items: stretch;
+    gap: 1rem;
+}
+
+/* Damos estilo a cada solicitud con grid de 3 columnas: foto, info y acciones */
+.Solicitud{
+    background-color: var(--color-fondo);
+    padding: 1rem;
+    border-radius: var(--radio);
+
+    display: grid;
+    grid-template-columns: 4rem 1fr auto;
+    align-items: center;
+    gap: 1rem;
+}
+
+/* El marco ya es cuadrado (4rem): la foto lo llena con cover sin dejar bandas */
+.Solicitud-img{
+    width: 4rem;
+    height: 4rem;
+    border-radius: var(--radio);
+    object-fit: cover;
+}
+
+.Solicitud-info{
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: flex-start;
+    gap: .2rem;
+}
+
+.Solicitud-info h4{
+    font-weight: 700;
+    font-size: 1.05em;
+}
+
+.Solicitud-info p{
+    font-size: .85em;
+    color: var(--color-texto-suave);
+}
+
+.Solicitud-acciones{
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-end;
+    align-items: center;
+    gap: .5rem;
+}
+
+/* Damos estilo a los botones de rechazar y aceptar añadiendo el efecto hover */
+.Solicitud-rechazar{
+    padding: .5rem .9rem;
+    border: 1px solid var(--color-rojo);
+    border-radius: var(--radio);
+
+    font-weight: 600;
+    color: var(--color-rojo);
+}
+
+.Solicitud-rechazar:hover{
+    background-color: var(--color-rojo);
+    color: var(--color-blanco);
+}
+
+.Solicitud-aceptar{
+    background-color: var(--color-verde);
+    padding: .5rem .9rem;
+    border-radius: var(--radio);
+
+    font-weight: 600;
+    color: var(--color-blanco);
+}
+
+.Solicitud-aceptar:hover{
+    background-color: var(--color-principal-oscuro);
+}
+
+/* Reservas confirmadas: colocamos con flex en columna la lista */
+.Panel-confirmadas{
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: flex-start;
+    align-items: stretch;
+    gap: .5rem;
+}
+
+/* Damos estilo a cada reserva confirmada con grid de 5 columnas */
+.Confirmada{
+    background-color: var(--color-fondo);
+    padding: .85rem 1rem;
+    border: 1px solid var(--color-borde);
+    border-radius: var(--radio);
+
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1.2fr auto auto;
+    align-items: center;
+    gap: 1rem;
+
+    font-size: .9em;
+    color: var(--color-texto-suave);
+}
+
+.Confirmada-nombre{
+    font-weight: 700;
+}
+
+.Confirmada-estado{
+    background-color: var(--color-cielo);
+    padding: .2rem .7rem;
+    border-radius: var(--radio-pill);
+
+    text-align: center;
+    font-size: .8em;
+    color: var(--color-principal);
+}
+
+/* Damos estilo al botón de cancelar añadiendo el efecto hover */
+.Confirmada-cancelar{
+    padding: .35rem .8rem;
+    border: 1px solid var(--color-rojo);
+    border-radius: var(--radio);
+
+    font-weight: 600;
+    font-size: .85em;
+    color: var(--color-rojo);
+}
+
+.Confirmada-cancelar:hover{
+    background-color: var(--color-rojo);
+    color: var(--color-blanco);
+}
+
+/* Mensajes recibidos: colocamos con flex en columna la lista */
+.Panel-mensajes{
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: flex-start;
+    align-items: stretch;
+    gap: 1rem;
+}
+
+/* Recuadro de cada mensaje con su texto, autor, respuesta y acciones */
+.Mensaje{
+    background-color: var(--color-fondo);
+    padding: 1rem;
+    border: 1px solid var(--color-borde);
+    border-radius: var(--radio);
+
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: .5rem;
+}
+
+/* Los párrafos del mensaje se separan solo con el gap del recuadro */
+.Mensaje p{
+    margin-bottom: 0;
+}
+
+.Mensaje-texto{
+    color: var(--color-texto);
+}
+
+.Mensaje-autor{
+    font-size: .85em;
+    color: var(--color-texto-suave);
+}
+
+.Mensaje-respuesta{
+    font-size: .9em;
+    color: var(--color-principal-oscuro);
+}
+
+/* Colocamos con flex los botones de responder y eliminar compartiendo fila */
+.Mensaje-acciones{
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-start;
+    align-items: center;
+    gap: .5rem;
+}
+
+/* Damos estilo a los botones de responder y eliminar añadiendo el efecto hover */
+.Mensaje-responder{
+    padding: .45rem .9rem;
+    border: 1px solid var(--color-principal);
+    border-radius: var(--radio);
+
+    font-weight: 600;
+    font-size: .85em;
+    color: var(--color-principal);
+}
+
+.Mensaje-responder:hover{
+    background-color: var(--color-principal);
+    color: var(--color-blanco);
+}
+
+.Mensaje-eliminar{
+    padding: .45rem .9rem;
+    border: 1px solid var(--color-rojo);
+    border-radius: var(--radio);
+
+    font-weight: 600;
+    font-size: .85em;
+    color: var(--color-rojo);
+}
+
+.Mensaje-eliminar:hover{
+    background-color: var(--color-rojo);
+    color: var(--color-blanco);
+}
+
+/* Cuadro de respuesta oculto hasta que el botón le añade la clase isActive, como en las tabs;
+colocamos con flex el input junto a su botón */
+.Mensaje-form{
+    width: 100%;
+
+    display: none;
+    flex-flow: row nowrap;
+    justify-content: flex-start;
+    align-items: center;
+    gap: .5rem;
+}
+
+.Mensaje-form.isActive{
+    display: flex;
+}
+
+.Mensaje-form input{
+    flex: 1;
+    background-color: var(--color-blanco);
+    padding: .45rem .8rem;
+    border: 1px solid var(--color-borde);
+    border-radius: var(--radio);
+
+    font-size: .85em;
+}
+
+.Mensaje-enviar{
+    padding: .45rem .9rem;
+    border: 1px solid var(--color-principal);
+    border-radius: var(--radio);
+
+    font-weight: 600;
+    font-size: .85em;
+    color: var(--color-principal);
+}
+
+.Mensaje-enviar:hover{
+    background-color: var(--color-principal);
+    color: var(--color-blanco);
+}
+
+/* Para tablets pasamos el panel a una sola columna */
+@media (max-width: 930px){
+    .Panel-grid{
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Para móviles pasamos solicitudes y confirmadas a una sola columna */
+@media (max-width: 560px){
+    .Solicitud,
+    .Confirmada{
+        grid-template-columns: 1fr;
+    }
+
+    .Solicitud-acciones{
+        justify-content: flex-start;
+    }
+
+    .Confirmada-cancelar{
+        justify-self: start;
+    }
+}

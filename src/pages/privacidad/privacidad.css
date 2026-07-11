@@ -1,0 +1,31 @@
+
+/* POLÍTICA DE PRIVACIDAD */
+
+/* Página de texto legal: columna centrada y legible, sin adornos */
+.Privacidad{
+    width: 45rem;
+    max-width: 90%;
+    margin: 0 auto;
+    padding: 2rem 0;
+}
+
+.Privacidad h1{
+    margin-bottom: 1.5rem;
+
+    font-weight: 700;
+    font-size: 1.8em;
+}
+
+.Privacidad h2{
+    margin: 1.5rem 0 0.5rem;
+
+    font-weight: 600;
+    font-size: 1.2em;
+}
+
+.Privacidad p{
+    margin-bottom: 1rem;
+
+    color: var(--color-texto-suave);
+    line-height: 1.5em;
+}

@@ -1,0 +1,22 @@
+
+/* APP (layout compartido) */
+
+/* Colocamos con flex en columna el header, el main y el footer
+para que el footer quede siempre abajo */
+.AppLayout {
+  min-height: 100vh;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: flex-start;
+  align-items: stretch;
+}
+
+.AppLayout-main {
+  flex: 1;
+  width: 100%;
+}
+
+.AppLayout-cargando {
+  padding: 2rem;
+  text-align: center;
+}

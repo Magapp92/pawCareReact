@@ -1,0 +1,240 @@
+
+/*Reset css pro*/
+:root {
+  font-size : 100%;
+  font-family : system-ui, sans-serif;
+  scroll-behavior : smooth;
+}
+/* Quitamos los márgenes y paddings por defecto del navegador para no tener
+que ponerlos a 0 en cada regla */
+* , *::before , *::after {
+  box-sizing : border-box;
+  margin : 0;
+  padding : 0;
+}
+*:where(:not(html, iframe, canvas, img, svg, video, audio):not(svg *, symbol *)) {
+  display : revert;
+}
+*::before , *::after {
+  display : block;
+}
+img , picture , video , iframe , figure , canvas {
+  max-width : 100%;
+  display : block;
+  width : 100%;
+  height : initial;
+  object-fit : cover;
+  object-position : center center;
+}
+a {
+  display : block;
+  text-decoration : none;
+  color : inherit;
+  font :  inherit;
+}
+p a {
+  display : inline;
+}
+li , menu, summary {
+  list-style-type : none;
+}
+ol {
+  counter-reset : revert;
+}
+h1 , h2 , h3 , h4 , h5 , h6 , p , span , a , strong , blockquote , i , b , u , em , pre , code , mark , del {
+  font :  inherit;
+  line-height :  1em;
+  text-decoration :  none;
+  color : inherit;
+  overflow-wrap : break-word;
+  text-wrap : pretty;
+}
+mark {
+  background-color : transparent;
+}
+blockquote::before , blockquote::after , q::before , q::after {
+  content : none;
+}
+form , input , textarea , select , button , label {
+  font :  inherit;
+  hyphens : auto;
+  background-color : transparent;
+  color : inherit;
+  display : block;
+  appearance : none;
+}
+fieldset {
+  border : none;
+}
+::placeholder {
+  color : unset;
+}
+button , label {
+  cursor : pointer;
+}
+table , tr , td , th , tbody , thead , tfoot {
+  border-collapse : collapse;
+  border-spacing : 0;
+  font : inherit;
+}
+svg {
+  width : 100%;
+  height : initial;
+  display : block;
+  fill : currentColor;
+}
+body {
+  min-height : 100vh;
+  line-height : 1.5em;
+  color : inherit;
+  hyphens : auto;
+  font-smooth : always;
+  -webkit-font-smoothing : antialiased;
+  -moz-osx-font-smoothing : grayscale;
+}
+
+/* Agrupamos todas las tipografías de títulos y párrafos */
+
+@font-face {
+    font-family: "titulo";
+    src: url(./tipografia/plusjakartasans-700.woff2);
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "texto";
+    src: url(./tipografia/worksans-400.woff2);
+    font-display: swap;
+}
+
+/* Breakpoints del proyecto: 480 móvil · 560 móvil grande · 930 tablet · 1600 pantallas grandes */
+
+/*Agrupamos todas las custom properties de colores, tipografías, radios y sombra*/
+:root {
+  /* Colores */
+  --color-principal:        #00b527;
+  --color-principal-oscuro: #007219;
+  --color-cielo:            #EBF2FF;
+  --color-verde:            #4dbe31;
+  --color-footer:           #e0f1db;
+  --color-fondo:            #f8f9ff;
+  --color-blanco:           #FFFFFF;
+  --color-borde:            #285c28;
+  --color-texto:            #3e4547;
+  --color-texto-suave:      #646980;
+  --color-rojo:             #BA1A1A;
+
+  /* Fuentes */
+  --fuente-titulo: "titulo", system-ui, sans-serif;
+  --fuente-texto:  "texto", system-ui, sans-serif;
+
+  /* Radios y sombra; el radio-pill supera la mitad del alto de las pills, dándoles la forma */
+  --radio: .5rem;
+  --radio-grande: 1rem;
+  --radio-pill: 2rem;
+  --sombra: 0 2px 16px rgba(25, 28, 29, 0.338);
+}
+
+/* Damos los estilos base del tema: tipografía del body y colores de fondo y texto */
+body {
+  font-family: var(--fuente-texto);
+}
+
+html, body, #root {
+  background-color: var(--color-fondo);
+  color: var(--color-texto);
+}
+
+/* Evitamos el rebote elástico al forzar el scroll más allá del borde de la página,
+que dejaba ver el fondo como si hubiera scroll de más */
+html {
+  overscroll-behavior: none;
+}
+
+/* En pantallas grandes la base crece fluida: 1vw vale 16px justo en 1600px (sin salto)
+y como todo el layout usa rem, escala proporcionalmente */
+@media (min-width: 1600px){
+  :root {
+    font-size: 1vw;
+  }
+}
+
+#root {
+  min-height: 100vh;
+}
+
+/* el reset deja los h* con font: inherit; aquí les devolvemos la fuente de títulos */
+h1, h2, h3, h4, h5 {
+  font-family: var(--fuente-titulo);
+  color: var(--color-texto);
+  line-height: 1.25;
+}
+
+/* el reset pone appearance:none en los inputs; devolvemos el aspecto nativo
+   a checkbox y radio para que se vean y se puedan marcar */
+input[type="checkbox"],
+input[type="radio"] {
+  appearance: auto;
+  width: auto;
+  cursor: pointer;
+}
+
+/* el reset también quita el aspecto nativo de los select; lo devolvemos
+   para que muestren su flecha y el desplegable no se vea roto */
+select {
+  appearance: auto;
+  cursor: pointer;
+}
+
+/* Donde el navegador lo soporta, el desplegable pasa a formar parte de la página
+   (en vez del popup del sistema): así escala y se coloca pegado al select,
+   y podemos darle nuestro estilo; si no hay soporte se mantiene el nativo de arriba */
+@supports (appearance: base-select) {
+  select,
+  ::picker(select) {
+    appearance: base-select;
+  }
+
+  /* el texto a la izquierda y la flecha a la derecha en la misma línea */
+  select {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  /* sin fallbacks de posición para que el desplegable salga siempre por debajo del select */
+  ::picker(select) {
+    background-color: var(--color-blanco);
+    border: 1px solid var(--color-borde);
+    border-radius: var(--radio);
+    box-shadow: var(--sombra);
+
+    position-area: block-end span-inline-end;
+    position-try-fallbacks: none;
+  }
+
+  option {
+    background-color: var(--color-blanco);
+    padding: .5rem .8rem;
+  }
+
+  option:hover,
+  option:checked {
+    background-color: var(--color-cielo);
+  }
+
+  /* los placeholder ocultos tampoco deben verse en el desplegable de la página */
+  option[hidden] {
+    display: none;
+  }
+}
+
+/* el reset no quita el borde nativo de los botones; lo quitamos aquí
+   y cada botón define el suyo con border-radius: var(--radio) */
+button {
+  border: none;
+  border-radius: var(--radio);
+}
+
+

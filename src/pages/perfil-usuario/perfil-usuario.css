@@ -1,0 +1,525 @@
+
+/* PERFIL USUARIO (mi perfil) */
+
+/* Damos estilo a la página centrándola */
+.MiPerfil{
+    max-width: 75rem;
+    margin: 0 auto;
+    padding: 2rem 1.5rem;
+}
+
+.MiPerfil-cargando{
+    padding: 2rem;
+
+    text-align: center;
+}
+
+.MiPerfil-titulo{
+    font-weight: 700;
+    font-size: 2em;
+}
+
+.MiPerfil-subtitulo{
+    margin-bottom: 1.5rem;
+
+    color: var(--color-texto-suave);
+}
+
+/* Distribución de dos columnas: lateral (datos y reservas) y principal (mascotas) */
+.MiPerfil-grid{
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    align-items: start;
+    gap: 1.5rem;
+}
+
+.MiPerfil-columna{
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: flex-start;
+    align-items: stretch;
+    gap: 1.5rem;
+}
+
+/* El JSX usa MiPerfil-wrapper para "Mis datos" y MiPerfil-bloque para el resto,
+por eso agrupamos los dos selectores */
+.MiPerfil-bloque,
+.MiPerfil-wrapper{
+    background-color: var(--color-blanco);
+    padding: 1.5rem;
+    border: 1px solid var(--color-borde);
+    border-radius: var(--radio-grande);
+}
+
+/* Damos estilo a la cabecera de cada bloque con el título y su botón */
+.MiPerfil-cabecera{
+    margin-bottom: 1rem;
+
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Agrupamos el h2 de las cabeceras y el de Últimas reservas para que coincidan;
+el margen inferior lo lleva el título y en las cabeceras lo pone la propia cabecera */
+.MiPerfil-cabecera h2,
+.MiPerfil-bloque h2{
+    margin-bottom: 1rem;
+
+    font-size: 1.3em;
+    font-weight: 600;
+}
+
+.MiPerfil-cabecera h2{
+    margin-bottom: 0;
+}
+
+/* Damos estilo a los botones añadiendo el efecto hover */
+.MiPerfil-guardar{
+    background-color: var(--color-principal);
+    padding: .7rem 1.4rem;
+    border-radius: var(--radio);
+
+    font-weight: 600;
+    color: var(--color-blanco);
+}
+
+.MiPerfil-guardar:hover{
+    background-color: var(--color-principal-oscuro);
+}
+
+.MiPerfil-cancelar{
+    padding: .7rem 1.4rem;
+    border: 1px solid var(--color-rojo);
+    border-radius: var(--radio);
+
+    font-weight: 600;
+    color: var(--color-rojo);
+}
+
+.MiPerfil-cancelar:hover{
+    background-color: var(--color-rojo);
+    color: var(--color-blanco);
+}
+
+.MiPerfil-editar{
+    padding: .5rem .9rem;
+    border: 1px solid var(--color-principal);
+    border-radius: var(--radio);
+
+    font-weight: 600;
+    font-size: .9em;
+    color: var(--color-principal);
+}
+
+.MiPerfil-editar:hover{
+    background-color: var(--color-principal);
+    color: var(--color-blanco);
+}
+
+.MiPerfil-anadir{
+    background-color: var(--color-verde);
+    padding: .55rem 1rem;
+    border-radius: var(--radio);
+
+    font-weight: 600;
+    font-size: .9em;
+    color: var(--color-blanco);
+}
+
+.MiPerfil-anadir:hover{
+    background-color: var(--color-principal-oscuro);
+}
+
+.MiPerfil-acciones{
+    margin-top: 1rem;
+
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-end;
+    align-items: center;
+    gap: .75rem;
+}
+
+/* Datos en modo vista: la foto a la izquierda y la información a su derecha */
+.MiPerfil-datos{
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 1.25rem;
+}
+
+/* Foto de perfil del usuario redonda, como la del panel del cuidador */
+.MiPerfil-avatar{
+    width: 9rem;
+    height: 9rem;
+    border: 4px solid var(--color-cielo);
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+/* Colocamos con flex en columna la información del perfil */
+.MiPerfil-textos{
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: flex-start;
+    gap: .5rem;
+
+    color: var(--color-texto-suave);
+}
+
+.MiPerfil-nombre{
+    font-weight: 700;
+    font-size: 1.15em;
+    color: var(--color-texto);
+}
+
+/* Datos en modo edición: agrupamos cada etiqueta con su input */
+.MiPerfil-campo{
+    margin-bottom: 1rem;
+
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: flex-start;
+    align-items: stretch;
+    gap: .35rem;
+}
+
+.MiPerfil-campo span{
+    font-weight: 600;
+    font-size: .85em;
+    color: var(--color-texto-suave);
+}
+
+.MiPerfil-bloque input,
+.MiPerfil-bloque select,
+.MiPerfil-wrapper input,
+.MiPerfil-wrapper select{
+    width: 100%;
+    background-color: var(--color-fondo);
+    padding: .7rem 1rem;
+    border: 1px solid var(--color-borde);
+    border-radius: var(--radio);
+}
+
+/* Añadimos propiedades a los inputs cuando están en focus */
+.MiPerfil-bloque input:focus,
+.MiPerfil-bloque select:focus,
+.MiPerfil-wrapper input:focus,
+.MiPerfil-wrapper select:focus{
+    outline: none;
+    border-color: var(--color-principal);
+}
+
+/* Últimas reservas: colocamos con flex en columna la lista de resúmenes */
+.MiPerfil-reservas{
+    margin-bottom: 1rem;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: flex-start;
+    align-items: stretch;
+    gap: .6rem;
+}
+
+/* Damos estilo a cada resumen de reserva con el nombre, la fecha y el estado */
+.MiPerfil-reserva{
+    background-color: var(--color-cielo);
+    padding: .75rem 1rem;
+    border-radius: var(--radio);
+
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: .5rem;
+}
+
+.MiPerfil-cuidadorNombre{
+    display: block;
+
+    font-weight: 700;
+}
+
+.MiPerfil-servicio{
+    display: block;
+
+    font-size: .9em;
+    color: var(--color-texto-suave);
+}
+
+.MiPerfil-fecha{
+    display: block;
+
+    font-size: .85em;
+    color: var(--color-texto-suave);
+}
+
+.MiPerfil-estado{
+    background-color: var(--color-blanco);
+    padding: .2rem .6rem;
+    border-radius: var(--radio-pill);
+
+    font-size: .75em;
+    color: var(--color-principal);
+}
+
+/* Enlace a mis reservas con hover que lo oscurece y lo agranda ligeramente */
+.MiPerfil-irReservas{
+    display: inline-block;
+
+    font-weight: 600;
+    color: var(--color-principal);
+
+    transition: color .2s ease, scale .2s ease;
+}
+
+.MiPerfil-irReservas:hover{
+    color: var(--color-principal-oscuro);
+    scale: 1.05;
+}
+
+/* Mascotas: colocamos con grid de 2 columnas las tarjetas */
+.MiPerfil-mascotas{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+}
+
+/* Damos estilo a la tarjeta de cada mascota colocando su contenido con flex en columna;
+el borde usa un tono más claro del color de borde del tema */
+.Mascota{
+    background-color: var(--color-blanco);
+    border: 1px solid #a3c6a3;
+    border-radius: var(--radio-grande);
+
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: flex-start;
+    align-items: stretch;
+
+    overflow: hidden;
+}
+
+/* La foto centrada como un recuadro dentro de la tarjeta, igual que las cards de inicio */
+.Mascota-imagen{
+    padding: 1.25rem 1.25rem 0;
+}
+
+/* Marco cuadrado que la foto llena con cover sin dejar bandas */
+.Mascota-imagen img{
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1 / 1;
+    border-radius: var(--radio);
+    object-fit: cover;
+}
+
+.Mascota-cuerpo{
+    padding: 1.25rem;
+
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: flex-start;
+    align-items: stretch;
+    gap: .6rem;
+}
+
+/* Colocamos con flex el nombre y la edad compartiendo fila */
+.Mascota-fila{
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: .5rem;
+}
+
+.Mascota-nombre{
+    font-weight: 700;
+    font-size: 1.1em;
+}
+
+/* flex none evita que la pill se encoja y parta el texto */
+.Mascota-edad{
+    flex: none;
+    background-color: var(--color-verde);
+    padding: .15rem .6rem;
+    border-radius: var(--radio-pill);
+
+    font-size: .75em;
+    color: var(--color-texto);
+}
+
+.Mascota-raza{
+    font-size: .9em;
+    color: var(--color-texto-suave);
+}
+
+/* Colocamos con flex las etiquetas de especie y vacunada */
+.Mascota-tags{
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: flex-start;
+    align-items: center;
+    gap: .4rem;
+}
+
+.Mascota-tag{
+    background-color: var(--color-fondo);
+    padding: .15rem .6rem;
+    border-radius: var(--radio-pill);
+
+    font-size: .75em;
+    color: var(--color-texto-suave);
+}
+
+/* Modificador para la etiqueta de vacunada */
+.Mascota-tag--ok{
+    background-color: var(--color-cielo);
+    color: var(--color-principal);
+}
+
+/* Damos estilo a los botones de editar y eliminar con el mismo padding interior
+para que compartan tamaño, añadiendo el efecto hover */
+.Mascota-editar{
+    padding: .4rem 1.5rem;
+    border: 1px solid var(--color-principal);
+    border-radius: var(--radio);
+
+    font-weight: 600;
+    font-size: .85em;
+    color: var(--color-principal);
+}
+
+.Mascota-editar:hover{
+    background-color: var(--color-principal);
+    color: var(--color-blanco);
+}
+
+.Mascota-eliminar{
+    padding: .4rem 1.5rem;
+    border: 1px solid var(--color-rojo);
+    border-radius: var(--radio);
+
+    font-weight: 600;
+    font-size: .85em;
+    color: var(--color-rojo);
+}
+
+.Mascota-eliminar:hover{
+    background-color: var(--color-rojo);
+    color: var(--color-blanco);
+}
+
+/* Mascota en modo formulario (añadir / editar) */
+.Mascota--form{
+    padding: 1rem;
+
+    gap: .5rem;
+}
+
+.Mascota--form input,
+.Mascota--form select{
+    width: 100%;
+    background-color: var(--color-fondo);
+    padding: .5rem .7rem;
+    border: 1px solid var(--color-borde);
+    border-radius: var(--radio);
+
+    font-size: .9em;
+}
+
+.Mascota-campo{
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: flex-start;
+    align-items: stretch;
+    gap: .25rem;
+}
+
+.Mascota-campo span{
+    font-weight: 600;
+    font-size: .8em;
+    color: var(--color-texto-suave);
+}
+
+/* Colocamos con flex el checkbox de vacunada con su texto */
+.Mascota-check{
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-start;
+    align-items: center;
+    gap: .4rem;
+
+    font-size: .85em;
+}
+
+/* El checkbox no debe estirarse como el resto de inputs del formulario */
+.Mascota-check input{
+    width: auto;
+    flex: none;
+}
+
+.Mascota-acciones{
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: center;
+    gap: .5rem;
+}
+
+.Mascota-guardar{
+    background-color: var(--color-principal);
+    padding: .45rem .9rem;
+    border-radius: var(--radio);
+
+    font-weight: 600;
+    font-size: .85em;
+    color: var(--color-blanco);
+}
+
+.Mascota-guardar:hover{
+    background-color: var(--color-principal-oscuro);
+}
+
+.Mascota-cancelar{
+    padding: .45rem .9rem;
+    border: 1px solid var(--color-rojo);
+    border-radius: var(--radio);
+
+    font-weight: 600;
+    font-size: .85em;
+    color: var(--color-rojo);
+}
+
+.Mascota-cancelar:hover{
+    background-color: var(--color-rojo);
+    color: var(--color-blanco);
+}
+
+/* Para tablets pasamos la página a una sola columna */
+@media (max-width: 930px){
+    .MiPerfil-grid{
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Para móviles pasamos las mascotas a una sola columna */
+@media (max-width: 560px){
+    .MiPerfil-mascotas{
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Para pantallas grandes damos más aire entre las tarjetas */
+@media (min-width: 1600px){
+    .MiPerfil-mascotas{
+        gap: 1.5rem;
+    }
+
+    .MiPerfil-grid{
+        gap: 2rem;
+    }
+}

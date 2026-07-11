@@ -1,0 +1,128 @@
+
+/* HEADER */
+
+/* Damos estilo al Header con position sticky para que quede fijo arriba al hacer scroll.
+Escala de capas del proyecto: 1 flechas del carrusel < 2 header < 3 modal de reservar */
+.Header{
+    background-color: var(--color-blanco);
+    border-bottom: 1px solid var(--color-borde);
+
+    position: sticky;
+    top: 0;
+    z-index: 2;
+}
+
+/* En el Header-inner centramos el contenido y colocamos con flex el logo, los links y el botón de salir */
+.Header-inner{
+    max-width: 75rem;
+    margin: 0 auto;
+    padding: 1rem 1.5rem;
+
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+/* Damos estilo al logo: el padding reserva el hueco de la imagen y el min-height
+iguala su alto para que no pise los bordes del header */
+.Header-logo{
+    min-height: 3em;
+    padding-left: 3em;
+    padding-top: 1em;
+
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-start;
+    align-items: center;
+
+    font-family: var(--fuente-titulo);
+    font-weight: 800;
+    font-size: 1.4em;
+    color: var(--color-principal);
+
+    position: relative;
+}
+
+/* Colocamos la imagen del logo con position, centrada verticalmente respecto al texto */
+.Header-logoImg{
+    width: 3em;
+    height: 3em;
+    object-fit: contain;
+
+    position: absolute;
+    left: 0;
+    top: 50%;
+    translate: 0 -50%;
+}
+
+/* Colocamos con flex los enlaces de navegación */
+.Header-links{
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    align-items: center;
+    gap: .5rem;
+}
+
+/* El padding agranda la zona de pulsado en móvil sin cambiar el aspecto */
+.Header-link{
+    padding: .5rem;
+
+    font-weight: 600;
+    color: var(--color-texto-suave);
+}
+
+/* Subrayamos el enlace al pasar el ratón solo cuando no es el de la ruta actual */
+.Header-link:hover{
+    text-decoration: underline;
+}
+
+/* La clase active la añade NavLink automáticamente al enlace de la ruta actual */
+.Header-link.active{
+    color: var(--color-principal);
+}
+
+.Header-link.active:hover{
+    text-decoration: none;
+}
+
+/* Damos estilo al botón de salir añadiendo el efecto hover */
+.Header-salir{
+    padding: .5rem .9rem;
+    border-radius: var(--radio);
+
+    font-weight: 600;
+    color: var(--color-texto-suave);
+}
+
+.Header-salir:hover{
+    background-color: var(--color-cielo);
+    color: var(--color-principal);
+}
+
+/* Para móviles colocamos el contenido del header en columna */
+@media (max-width: 480px){
+    .Header-inner{
+        flex-flow: column nowrap;
+        gap: .75rem;
+    }
+}
+
+/* Para pantallas grandes sube el texto del logo y la imagen baja a 2.4em
+para mantener el mismo tamaño visual */
+@media (min-width: 1600px){
+    .Header-logo{
+        min-height: 2.4em;
+        padding-left: 2.4em;
+        padding-top: .8em;
+
+        font-size: 1.8em;
+    }
+
+    .Header-logoImg{
+        width: 2.4em;
+        height: 2.4em;
+    }
+}

@@ -1,0 +1,386 @@
+
+/* RESERVAS (mis reservas) */
+
+/* Damos estilo a la página centrándola */
+.Reservas{
+    max-width: 50rem;
+    margin: 0 auto;
+    padding: 2rem 1.5rem;
+}
+
+.Reservas-titulo{
+    margin-bottom: 1.5rem;
+
+    font-weight: 700;
+    font-size: 2em;
+}
+
+/* Colocamos con grid la lista de reservas */
+.Reservas-lista{
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+}
+
+/* Damos estilo a cada reserva compacta con grid de 2 columnas: info y lado,
+el borde izquierdo verde indica que la tarjeta es una reserva */
+.Reserva{
+    background-color: var(--color-blanco);
+    padding: .85rem 1.25rem;
+    border: 1px solid var(--color-borde);
+    border-left: 4px solid var(--color-verde);
+    border-radius: var(--radio-grande);
+
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: 1.25rem;
+}
+
+/* Colocamos con flex la foto del cuidador junto a su nombre */
+.Reserva-cabecera{
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-start;
+    align-items: center;
+    gap: .6rem;
+}
+
+.Reserva-foto{
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+/* Colocamos con flex en columna los datos de la reserva */
+.Reserva-info{
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: flex-start;
+    gap: .25rem;
+}
+
+.Reserva-cuidador{
+    font-weight: 700;
+    font-size: 1.2em;
+}
+
+.Reserva-dato{
+    font-size: .9em;
+    color: var(--color-texto-suave);
+}
+
+.Reserva-estado{
+    background-color: var(--color-cielo);
+    margin-top: .3rem;
+    padding: .2rem .7rem;
+    border-radius: var(--radio-pill);
+
+    font-size: .8em;
+    color: var(--color-principal);
+}
+
+/* Colocamos con flex los botones de agregar opinión y enviar mensaje compartiendo fila */
+.Reserva-interacciones{
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-start;
+    align-items: center;
+    gap: .5rem;
+}
+
+/* Damos estilo a los botones de agregar opinión y enviar mensaje añadiendo el efecto hover */
+.Reserva-opinar{
+    margin-top: .4rem;
+    padding: .45rem .9rem;
+    border: 1px solid var(--color-principal);
+    border-radius: var(--radio);
+
+    font-weight: 600;
+    font-size: .85em;
+    color: var(--color-principal);
+}
+
+.Reserva-opinar:hover{
+    background-color: var(--color-principal);
+    color: var(--color-blanco);
+}
+
+/* Recuadro del comentario oculto hasta que el botón le añade la clase isActive, como en las tabs;
+colocamos con flex el input junto a su botón */
+.Reserva-comentario{
+    width: 100%;
+    margin-top: .4rem;
+
+    display: none;
+    flex-flow: row nowrap;
+    justify-content: flex-start;
+    align-items: center;
+    gap: .5rem;
+}
+
+.Reserva-comentario.isActive{
+    display: flex;
+}
+
+.Reserva-comentario input{
+    flex: 1;
+    background-color: var(--color-fondo);
+    padding: .45rem .8rem;
+    border: 1px solid var(--color-borde);
+    border-radius: var(--radio);
+
+    font-size: .85em;
+}
+
+.Reserva-comentar{
+    padding: .45rem .9rem;
+    border: 1px solid var(--color-principal);
+    border-radius: var(--radio);
+
+    font-weight: 600;
+    font-size: .85em;
+    color: var(--color-principal);
+}
+
+.Reserva-comentar:hover{
+    background-color: var(--color-principal);
+    color: var(--color-blanco);
+}
+
+/* Cabecera del desplegable de la conversación con la flecha a la derecha */
+.Reserva-conversacionCabecera{
+    margin-top: .4rem;
+
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-start;
+    align-items: center;
+    gap: .5rem;
+
+    font-weight: 600;
+    font-size: .9em;
+}
+
+/* Aviso de respuesta del cuidador, como el contador del panel */
+.Reserva-contador{
+    font-size: .8em;
+    font-weight: 700;
+    color: var(--color-principal);
+}
+
+.Reserva-desplegar{
+    width: 1.5rem;
+    height: 1.5rem;
+
+    color: var(--color-principal-oscuro);
+}
+
+/* La flecha gira cuando el acordeón está abierto */
+.Reserva-flecha{
+    transition: rotate .3s ease;
+}
+
+.Reserva-flecha.isActive{
+    rotate: 180deg;
+}
+
+/* Acordeón de la conversación oculto hasta que la flecha le añade la clase isActive,
+con el mismo recuadro que los mensajes del panel del cuidador;
+ocupa toda la fila del grid para no desplazar el precio ni los botones al abrirse */
+.Reserva-conversacion{
+    grid-column: 1 / -1;
+    background-color: var(--color-fondo);
+    padding: 1rem;
+    border: 1px solid var(--color-borde);
+    border-radius: var(--radio);
+
+    display: none;
+    flex-flow: column nowrap;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: .5rem;
+}
+
+.Reserva-conversacion.isActive{
+    display: flex;
+}
+
+.Reserva-mensajeTexto{
+    color: var(--color-texto);
+}
+
+.Reserva-mensajeAutor{
+    font-size: .85em;
+    color: var(--color-texto-suave);
+}
+
+/* Respuesta del cuidador al mensaje de la reserva */
+.Reserva-respuesta{
+    font-size: .9em;
+    color: var(--color-principal-oscuro);
+}
+
+/* Damos estilo al botón de eliminar la conversación añadiendo el efecto hover */
+.Reserva-borrarConversacion{
+    padding: .45rem .9rem;
+    border: 1px solid var(--color-rojo);
+    border-radius: var(--radio);
+
+    font-weight: 600;
+    font-size: .85em;
+    color: var(--color-rojo);
+}
+
+.Reserva-borrarConversacion:hover{
+    background-color: var(--color-rojo);
+    color: var(--color-blanco);
+}
+
+/* Colocamos con flex en columna el coste y los botones alineados a la derecha */
+.Reserva-lado{
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: flex-end;
+    gap: .5rem;
+}
+
+.Reserva-coste{
+    font-weight: 700;
+    font-size: 1.3em;
+    color: var(--color-principal);
+}
+
+/* Damos estilo a los botones de editar y cancelar añadiendo el efecto hover */
+.Reserva-editar{
+    padding: .5rem .9rem;
+    border: 1px solid var(--color-principal);
+    border-radius: var(--radio);
+
+    font-weight: 600;
+    color: var(--color-principal);
+}
+
+.Reserva-editar:hover{
+    background-color: var(--color-principal);
+    color: var(--color-blanco);
+}
+
+.Reserva-cancelarReserva{
+    padding: .5rem .9rem;
+    border: 1px solid var(--color-rojo);
+    border-radius: var(--radio);
+
+    font-weight: 600;
+    color: var(--color-rojo);
+}
+
+.Reserva-cancelarReserva:hover{
+    background-color: var(--color-rojo);
+    color: var(--color-blanco);
+}
+
+/* Reserva en modo edición: el modificador --edit la pasa a columna y cambia el borde al color principal */
+.Reserva--edit{
+    border-left: 4px solid var(--color-principal);
+
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: flex-start;
+    align-items: stretch;
+    gap: 1rem;
+}
+
+.Reserva--edit h3{
+    font-size: 1.1em;
+    font-weight: 600;
+}
+
+/* Damos estilo a cada campo del formulario agrupando la etiqueta y su input */
+.Reserva-campo{
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: flex-start;
+    align-items: stretch;
+    gap: .35rem;
+}
+
+.Reserva-campo span{
+    font-weight: 600;
+    font-size: .9em;
+    color: var(--color-texto-suave);
+}
+
+.Reserva-campo input,
+.Reserva-campo select{
+    width: 100%;
+    min-width: 0;
+    background-color: var(--color-fondo);
+    padding: .7rem 1rem;
+    border: 1px solid var(--color-borde);
+    border-radius: var(--radio);
+}
+
+/* Colocamos con flex las parejas de fechas para que compartan fila */
+.Reserva-fechas{
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: flex-start;
+    align-items: stretch;
+    gap: 1rem;
+}
+
+.Reserva-fechas .Reserva-campo{
+    flex: 1;
+    min-width: 9rem;
+}
+
+/* Colocamos con flex los botones de acción alineados a la derecha */
+.Reserva-acciones{
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-end;
+    align-items: center;
+    gap: .75rem;
+}
+
+.Reserva-cancelar{
+    padding: .6rem 1.1rem;
+    border: 1px solid var(--color-rojo);
+    border-radius: var(--radio);
+
+    font-weight: 600;
+    color: var(--color-rojo);
+}
+
+.Reserva-cancelar:hover{
+    background-color: var(--color-rojo);
+    color: var(--color-blanco);
+}
+
+.Reserva-guardar{
+    background-color: var(--color-principal);
+    padding: .6rem 1.1rem;
+    border-radius: var(--radio);
+
+    font-weight: 600;
+    color: var(--color-blanco);
+}
+
+.Reserva-guardar:hover{
+    background-color: var(--color-principal-oscuro);
+}
+
+/* Para móviles pasamos la reserva a una sola columna */
+@media (max-width: 480px){
+    .Reserva{
+        grid-template-columns: 1fr;
+    }
+
+    .Reserva-lado{
+        align-items: flex-start;
+    }
+}
