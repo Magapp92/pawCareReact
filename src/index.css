@@ -48,6 +48,7 @@ h1 , h2 , h3 , h4 , h5 , h6 , p , span , a , strong , blockquote , i , b , u , e
   color : inherit;
   overflow-wrap : break-word;
   text-wrap : pretty;
+  hyphens: none;
 }
 mark {
   background-color : transparent;
