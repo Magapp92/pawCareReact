@@ -75,14 +75,14 @@ export const PerfilUsuario = () => {
     const guardarMascota = async ( e ) => {
         e.preventDefault()
 
-        const { nombre, raza, especie, edadMeses, foto } = formularioMascota.current
+        const { nombre, raza, especie, edadMeses, foto, vacunada } = formularioMascota.current
 
         const datos = {
             nombre: nombre.value,
             raza: raza.value,
             especie: especie.value,
             edadMeses: edadMeses.value,
-            vacunada: false,
+            vacunada: vacunada.checked,
             fotoUrl: await leerFoto(foto)
         }
 
@@ -214,6 +214,10 @@ export const PerfilUsuario = () => {
                                 <label className="Mascota-campo">
                                     <span>Foto</span>
                                     <input name="foto" type="file" accept="image/*" />
+                                </label>
+                                <label className="Mascota-check">
+                                    <input name="vacunada" type="checkbox" />
+                                    <span>Vacunado/a</span>
                                 </label>
                                 <div className="Mascota-acciones">
                                     <button className="Mascota-cancelar" type="button" onClick={() => setAnadiendo(false)}>Cancelar</button>
