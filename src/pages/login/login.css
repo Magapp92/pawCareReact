@@ -20,7 +20,7 @@ con position relative sirve de referencia para colocar la imagen de fondo detrá
 .Login-fondo{
     width: 100%;
     height: 100%;
-    object-fit: fill;
+    object-fit: cover;
     object-position: center;
 
     position: absolute;
@@ -143,8 +143,5 @@ el align-self encoge el bloque para centrarlo en la tarjeta */
 @media (max-width: 480px){
     .Login-card{
         padding: 1.75rem;
-    }
-    .Login-fondo{
-        object-fit: cover;
     }
 }
