@@ -5,8 +5,6 @@
   font-family : system-ui, sans-serif;
   scroll-behavior : smooth;
 }
-/* Quitamos los márgenes y paddings por defecto del navegador para no tener
-que ponerlos a 0 en cada regla */
 * , *::before , *::after {
   box-sizing : border-box;
   margin : 0;
@@ -108,8 +106,6 @@ body {
     font-display: swap;
 }
 
-/* Breakpoints del proyecto: 480 móvil · 560 móvil grande · 930 tablet · 1600 pantallas grandes */
-
 /*Agrupamos todas las custom properties de colores, tipografías, radios y sombra*/
 :root {
   /* Colores */
@@ -129,14 +125,14 @@ body {
   --fuente-titulo: "titulo", system-ui, sans-serif;
   --fuente-texto:  "texto", system-ui, sans-serif;
 
-  /* Radios y sombra; el radio-pill supera la mitad del alto de las pills, dándoles la forma */
+  /* Radios y sombra */
   --radio: .5rem;
   --radio-grande: 1rem;
   --radio-pill: 2rem;
   --sombra: 0 2px 16px rgba(25, 28, 29, 0.338);
 }
 
-/* Damos los estilos base del tema: tipografía del body y colores de fondo y texto */
+/* Damos los estilos base del tema */
 body {
   font-family: var(--fuente-texto);
 }
@@ -146,14 +142,12 @@ html, body, #root {
   color: var(--color-texto);
 }
 
-/* Evitamos el rebote elástico al forzar el scroll más allá del borde de la página,
-que dejaba ver el fondo como si hubiera scroll de más */
+/* Evitamos el rebote elástico al forzar el scroll más allá del borde de la página */
 html {
   overscroll-behavior: none;
 }
 
-/* En pantallas grandes la base crece fluida: 1vw vale 16px justo en 1600px (sin salto)
-y como todo el layout usa rem, escala proporcionalmente */
+/* En pantallas grandes la base crece fluida, escala proporcionalmente */
 @media (min-width: 1600px){
   :root {
     font-size: 1vw;
@@ -164,15 +158,14 @@ y como todo el layout usa rem, escala proporcionalmente */
   min-height: 100vh;
 }
 
-/* el reset deja los h* con font: inherit; aquí les devolvemos la fuente de títulos */
+/* Devolvemos la fuente de títulos a los h */
 h1, h2, h3, h4, h5 {
   font-family: var(--fuente-titulo);
   color: var(--color-texto);
   line-height: 1.25;
 }
 
-/* el reset pone appearance:none en los inputs; devolvemos el aspecto nativo
-   a checkbox y radio para que se vean y se puedan marcar */
+/* Devolvemos el aspecto nativo a checkbox y radio para que se vean y se puedan marcar */
 input[type="checkbox"],
 input[type="radio"] {
   appearance: auto;
@@ -180,16 +173,13 @@ input[type="radio"] {
   cursor: pointer;
 }
 
-/* el reset también quita el aspecto nativo de los select; lo devolvemos
-   para que muestren su flecha y el desplegable no se vea roto */
+/* Devolvemos aspecto nativo a los select para que muestren su flecha */
 select {
   appearance: auto;
   cursor: pointer;
 }
 
-/* Donde el navegador lo soporta, el desplegable pasa a formar parte de la página
-   (en vez del popup del sistema): así escala y se coloca pegado al select,
-   y podemos darle nuestro estilo; si no hay soporte se mantiene el nativo de arriba */
+/* Donde el navegador lo soporta, el desplegable pasa a formar parte de la página */
 @supports (appearance: base-select) {
   select,
   ::picker(select) {
@@ -204,7 +194,7 @@ select {
     align-items: center;
   }
 
-  /* sin fallbacks de posición para que el desplegable salga siempre por debajo del select */
+  /* Desplegable siempre por debajo del select */
   ::picker(select) {
     background-color: var(--color-blanco);
     border: 1px solid var(--color-borde);
@@ -225,14 +215,13 @@ select {
     background-color: var(--color-cielo);
   }
 
-  /* los placeholder ocultos tampoco deben verse en el desplegable de la página */
   option[hidden] {
     display: none;
   }
 }
 
-/* el reset no quita el borde nativo de los botones; lo quitamos aquí
-   y cada botón define el suyo con border-radius: var(--radio) */
+/* Quitamos el borde nativo de los botones, y cada botón define
+ el suyo con border-radius: var(--radio) */
 button {
   border: none;
   border-radius: var(--radio);

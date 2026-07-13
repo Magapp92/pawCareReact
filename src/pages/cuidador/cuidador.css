@@ -1,6 +1,4 @@
 
-/* CUIDADOR (perfil público del cuidador) */
-
 /* Damos estilo a la página centrándola y colocando sus bloques con flex en columna */
 .Perfil{
     max-width: 50rem;
@@ -82,7 +80,6 @@
     color: var(--color-texto-suave);
 }
 
-/* Etiqueta de un dato (Edad:, Animales que cuida:…) en negrita por CSS */
 .Perfil-etiqueta{
     font-weight: 700;
 }
@@ -94,7 +91,7 @@
     gap: 1rem;
 }
 
-/* Damos estilo a cada tarjeta de servicio con su nombre y precio */
+/* Damos estilo a cada tarjeta de servicio */
 .Servicio{
     background-color: var(--color-cielo);
     padding: 1rem;

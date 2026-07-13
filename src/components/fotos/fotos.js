@@ -1,6 +1,6 @@
 
 /* Convierte el archivo elegido en el input file a un data URL base64, reducido
-con un canvas a un máximo de 512px para que las fotos no engorden la base de datos;
+a un máximo de 512px para que las fotos no aumenten la base de datos;
 si no se elige ningún archivo devuelve la foto actual para no perderla */
 export const leerFoto = ( input, fotoActual = '' ) => {
 

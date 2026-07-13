@@ -6,7 +6,7 @@ import { obtenerPrecioServicio } from '../precios/precios'
 import { NOMBRES_SERVICIO, CLAVES_SERVICIO, HORAS_RESERVA } from '../../const/servicios'
 import './reservar.css'
 
-/* Recibe el cuidador entero por props: botón que abre un modal para crear la reserva */
+/* Recibe el cuidador entero por props: botón que abre un modo para crear la reserva */
 export const Reservar = ({ cuidador }) => {
 
     const { VITE_EXPRESS } = import.meta.env
@@ -43,14 +43,13 @@ export const Reservar = ({ cuidador }) => {
     }
 
     
-    /* Paseo/peluquería: un día y una hora · guardería: un día con rango de horas · resto: rango de fechas */
+    /* Paseo/peluquería: un día y una hora, guardería: un día con rango de horas y larga estancia rango de fechas */
     const mismoDia = servicio === 'paseador' || servicio === 'peluqueria'
     const esGuarderia = servicio === 'cuidadoDiario'
 
     const guardarReserva = async (e) => {
         e.preventDefault()
 
-        /* Sin deconstruir: los campos de fecha son condicionales según el servicio */
         const campos = formulario.current
 
         const datosForm = new FormData( campos )
@@ -139,7 +138,6 @@ export const Reservar = ({ cuidador }) => {
                                 </div>
                                 <label className="Reservar-campo">
                                     <span>Servicio</span>
-                                    {/* El estado solo escucha el cambio para repintar los campos de fecha */}
                                     <select name="tipoServicio" defaultValue={servicio} onChange={cambiarServicio}>
                                         { servicios.map(clave =>
                                           <option key={clave} value={clave}>{NOMBRES_SERVICIO[clave]}</option>

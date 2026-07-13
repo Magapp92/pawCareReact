@@ -1,8 +1,5 @@
-
-/* LOGIN */
-
-/* Damos estilo a la página de login centrando la tarjeta con flex y ocupando toda la pantalla;
-con position relative sirve de referencia para colocar la imagen de fondo detrás de la tarjeta */
+/* Damos estilo a la página de login centrando la tarjeta con flex y ocupando toda la pantalla,
+con el position relative sirve de referencia para colocar la imagen de fondo detrás de la tarjeta */
 .Login{
     min-height: 100vh;
     background-color: var(--color-cielo);
@@ -45,8 +42,7 @@ con position relative sirve de referencia para colocar la imagen de fondo detrá
     gap: 1.25rem;
 }
 
-/* Damos estilo al título con la misma estructura de logo que el header;
-el align-self encoge el bloque para centrarlo en la tarjeta */
+/* Damos estilo al título el align-self encoge el bloque para centrarlo en la tarjeta */
 .Login-h1{
     min-height: 3em;
     padding-left: 3em;

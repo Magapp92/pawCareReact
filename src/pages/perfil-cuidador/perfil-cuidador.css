@@ -1,8 +1,5 @@
 
-/* PERFIL CUIDADOR (panel del cuidador) */
-
-/* El JSX no tiene contenedor .Panel: el grid hace de raíz de la página,
-lo centramos y lo dividimos en 2 columnas: lateral y principal */
+/* .Panel-grid hace de raíz de la página, lo centramos y lo dividimos en 2 columnas */
 .Panel-grid{
     max-width: 75rem;
     margin: 0 auto;
@@ -117,7 +114,6 @@ lo centramos y lo dividimos en 2 columnas: lateral y principal */
     color: var(--color-principal);
 }
 
-/* Etiqueta de un dato (Edad:, Ubicación:…) en negrita y separada de su valor */
 .Panel-dato{
     margin-right: .35rem;
 
@@ -182,8 +178,6 @@ lo centramos y lo dividimos en 2 columnas: lateral y principal */
     color: var(--color-blanco);
 }
 
-/* Bloques desplegables más compactos: menos padding y sin el margen de la cabecera,
-la separación con el contenido la pone el propio acordeón al abrirse */
 .Panel-principal .Panel-bloque{
     padding: 1rem 1.5rem;
 }
@@ -192,7 +186,6 @@ la separación con el contenido la pone el propio acordeón al abrirse */
     margin-bottom: 0;
 }
 
-/* Botón del desplegable con la flecha a la derecha a la altura del título */
 .Panel-desplegar{
     width: 2rem;
     height: 2rem;
@@ -200,7 +193,7 @@ la separación con el contenido la pone el propio acordeón al abrirse */
     color: var(--color-principal-oscuro);
 }
 
-/* La flecha gira cuando el acordeón está abierto */
+/* La flecha gira cuando el desplegable está abierto */
 .Panel-flecha{
     transition: rotate .3s ease;
 }
@@ -209,7 +202,7 @@ la separación con el contenido la pone el propio acordeón al abrirse */
     rotate: 180deg;
 }
 
-/* Acordeón oculto hasta que la flecha le añade la clase isActive, como en las tabs */
+/* Desplegable oculto hasta que la flecha le añade la clase isActive */
 .Panel-acordeon{
     margin-top: 1rem;
 
@@ -264,7 +257,7 @@ la separación con el contenido la pone el propio acordeón al abrirse */
     font-size: .9em;
 }
 
-/* Damos estilo a cada fila de servicio editable con su checkbox, nombre y precio */
+/* Damos estilo a cada fila de servicio editable */
 .Panel-servicioEdit{
     display: flex;
     flex-flow: row nowrap;
@@ -294,7 +287,7 @@ la separación con el contenido la pone el propio acordeón al abrirse */
     gap: .25rem;
 }
 
-/* Ancho fijo y mayor especificidad para que no le gane el width:100% de arriba */
+/* Ancho fijo y mayor especificidad */
 .Panel-form .Panel-precio{
     width: 4rem;
     flex: none;
@@ -352,7 +345,7 @@ la separación con el contenido la pone el propio acordeón al abrirse */
     gap: 1rem;
 }
 
-/* Damos estilo a cada solicitud con grid de 3 columnas: foto, info y acciones */
+/* Damos estilo a cada solicitud con grid */
 .Solicitud{
     background-color: var(--color-fondo);
     padding: 1rem;
@@ -364,7 +357,6 @@ la separación con el contenido la pone el propio acordeón al abrirse */
     gap: 1rem;
 }
 
-/* El marco ya es cuadrado (4rem): la foto lo llena con cover sin dejar bandas */
 .Solicitud-img{
     width: 4rem;
     height: 4rem;
@@ -435,7 +427,7 @@ la separación con el contenido la pone el propio acordeón al abrirse */
     gap: .5rem;
 }
 
-/* Damos estilo a cada reserva confirmada con grid de 5 columnas */
+/* Damos estilo a cada reserva confirmada con grid */
 .Confirmada{
     background-color: var(--color-fondo);
     padding: .85rem 1rem;
@@ -490,7 +482,6 @@ la separación con el contenido la pone el propio acordeón al abrirse */
     gap: 1rem;
 }
 
-/* Recuadro de cada mensaje con su texto, autor, respuesta y acciones */
 .Mensaje{
     background-color: var(--color-fondo);
     padding: 1rem;
@@ -504,7 +495,6 @@ la separación con el contenido la pone el propio acordeón al abrirse */
     gap: .5rem;
 }
 
-/* Los párrafos del mensaje se separan solo con el gap del recuadro */
 .Mensaje p{
     margin-bottom: 0;
 }
@@ -563,8 +553,7 @@ la separación con el contenido la pone el propio acordeón al abrirse */
     color: var(--color-blanco);
 }
 
-/* Cuadro de respuesta oculto hasta que el botón le añade la clase isActive, como en las tabs;
-colocamos con flex el input junto a su botón */
+/* Cuadro de respuesta oculto hasta que el botón le añade la clase isActive */
 .Mensaje-form{
     width: 100%;
 

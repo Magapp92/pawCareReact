@@ -1,7 +1,4 @@
 
-/* RESERVAR (modal de reserva) */
-
-/* Damos estilo al botón que abre el modal añadiendo el efecto hover */
 .Reservar-boton{
     background-color: var(--color-principal);
     padding: .6rem 1.1rem;
@@ -15,7 +12,7 @@
     background-color: var(--color-principal-oscuro);
 }
 
-/* Fondo oscuro que cubre la pantalla, con position fixed y z-index para superponerse a todo;
+/* Fondo que cubre la pantalla, con position fixed y z-index para superponerse a todo;
 como en el lightbox está oculto con opacity y pointer-events hasta que se le añade isVisible */
 .Reservar-fondo{
     background-color: rgba(25, 28, 29, 0.45);
@@ -28,7 +25,6 @@ como en el lightbox está oculto con opacity y pointer-events hasta que se le a�
 
     position: fixed;
     inset: 0;
-    /* Nivel 3 de la escala de capas: por encima del header y las flechas */
     z-index: 3;
 
     opacity: 0;
@@ -40,7 +36,7 @@ como en el lightbox está oculto con opacity y pointer-events hasta que se le a�
     pointer-events: auto;
 }
 
-/* Damos estilo a la tarjeta del modal y colocamos su contenido con flex en columna */
+/* Damos estilo a la tarjeta y colocamos su contenido con flex en columna */
 .Reservar-modal{
     width: 90%;
     max-width: 28rem;
@@ -113,7 +109,6 @@ como en el lightbox está oculto con opacity y pointer-events hasta que se le a�
     cursor: pointer;
 }
 
-/* El checkbox no debe estirarse como los inputs de fecha */
 .Reservar-mascota input{
     width: auto;
     flex: none;

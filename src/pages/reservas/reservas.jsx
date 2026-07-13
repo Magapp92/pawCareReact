@@ -61,7 +61,7 @@ export const Reservas = () => {
         return (
         <main className="Reservas">
             <h1 className="Reservas-titulo">Mis reservas</h1>
-            {/* Listamos una tarjeta por reserva; pasamos el cuidador actual para mostrar sus datos actualizados */}
+            {/* Mostramos una tarjeta por reserva; pasamos el cuidador actual para mostrar sus datos actualizados */}
             { reservas.length === 0 && <p>Aún no tienes reservas.</p> }
             <div className="Reservas-lista">
                 { reservas.map( reserva =>
@@ -121,7 +121,7 @@ const Reserva = ( { _id, cuidador, cuidadorActual, mascota, fechaInicio, fechaFi
         setEnviandoMensaje(false)
     }
 
-    /* Guarda el comentario del usuario sobre la reserva; se mostrará en el perfil del cuidador */
+    /* Guarda el comentario del usuario sobre la reserva */
     const comentar = async ( e ) => {
         e.preventDefault()
 
@@ -152,7 +152,7 @@ const Reserva = ( { _id, cuidador, cuidadorActual, mascota, fechaInicio, fechaFi
     const guardar = async ( e ) => {
         e.preventDefault()
 
-        /* Sin deconstruir: los campos de fecha son condicionales según el servicio */
+        /* Los campos de fecha son condicionales según el servicio */
         const campos = formulario.current
 
         let fechaInicio
@@ -265,7 +265,6 @@ const Reserva = ( { _id, cuidador, cuidadorActual, mascota, fechaInicio, fechaFi
     return (
         <article className="Reserva">
             <div className="Reserva-info">
-                {/* La foto del cuidador acompaña al nombre en la misma fila */}
                 <div className="Reserva-cabecera">
                     <img className="Reserva-foto" src={fotoCuidador} alt={nombreCuidador} />
                     <h3 className="Reserva-cuidador">{nombreCuidador}</h3>
@@ -275,7 +274,7 @@ const Reserva = ( { _id, cuidador, cuidadorActual, mascota, fechaInicio, fechaFi
                 <p className="Reserva-dato">Servicio: {NOMBRES_SERVICIO[tipoServicio] || tipoServicio}</p>
                 <span className="Reserva-estado">{estado}</span>
                 {/* Solo se puede opinar sobre reservas confirmadas: el botón alterna el estado
-                y el recuadro se muestra con la clase isActive como en las tabs */}
+                y el recuadro se muestra con la clase isActive */}
                 { estado === 'Confirmada' &&
                     <>
                         <div className="Reserva-interacciones">
@@ -314,7 +313,7 @@ const Reserva = ( { _id, cuidador, cuidadorActual, mascota, fechaInicio, fechaFi
                 <button className="Reserva-editar" type="button" onClick={empezarEdicion}>Editar</button>
                 <button className="Reserva-cancelarReserva" type="button" onClick={() => cancelarReserva(_id)}>Cancelar</button>
             </div>
-            {/* El acordeón ocupa una fila entera del grid debajo de la info y el lado,
+            {/* El desplegable ocupa una fila entera del grid debajo de la info y el lado,
             así al abrirse no desplaza el precio ni los botones */}
             { estado === 'Confirmada' && mensaje &&
                 <div className={`Reserva-conversacion ${ conversacionAbierta ? `isActive` : `` }`}>

@@ -10,7 +10,7 @@ export const Header = () => {
     const navigate = useNavigate()
     const location = useLocation()
 
-    /* Visible en todas las rutas menos el login; derivado de la ruta, sin estado */
+    /* Visible en todas las rutas menos en el login */
     const visible = location.pathname !== '/login'
 
     const esCuidador = usuario?.rol === 'cuidador'
@@ -28,9 +28,8 @@ export const Header = () => {
       {visible &&
         <header className="Header">
           <div className="Header-inner">
-            {/* alt vacío: imagen decorativa, el enlace ya dice PawCare */}
             <NavLink to={esCuidador ? '/panel' : '/'} className="Header-logo">
-                <img className="Header-logoImg" src="/PawCare.png" alt="" />
+                <img className="Header-logoImg" src="/PawCare.png" alt="logo" />
                 PawCare
             </NavLink>
               {/* El cuidador no tiene links de navegación: solo logo y salir */}

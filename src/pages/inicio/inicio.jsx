@@ -55,7 +55,7 @@ export const Inicio = () => {
                 </select>
                 <button className="Inicio-buscar" type="submit">Buscar cuidador</button>
                 {/* Filtro de animales: se pueden seleccionar varios a la vez
-                y el seleccionado se marca con la clase isActive como en las tabs */}
+                y el seleccionado se marca con la clase isActive */}
                 <div className="Inicio-animales">
                     { LISTA_ANIMALES.map( animal =>
                         <button key={animal} type="button"
@@ -81,8 +81,7 @@ export const Inicio = () => {
     )
 }
 
-/* Tarjeta de un cuidador: foto, datos, etiquetas, precio y botón de reservar;
-el cuidador llega agrupado en una prop porque el modal lo necesita entero */
+/* Tarjeta de un cuidador */
 const Cuidador = ( { cuidador, servicioFiltro } ) => {
 
     const { _id, nombre, avatarUrl, ubicacion, experienciaAnos,

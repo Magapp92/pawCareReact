@@ -271,10 +271,10 @@ export const PerfilCuidador = () => {
             </div>
             <section className="Panel-principal">
                 {/* Cada bloque es un desplegable: la flecha alterna el estado
-                y el acordeón se muestra con la clase isActive como en las tabs */}
+                y el acordeón se muestra con la clase isActive */}
                 <div className="Panel-bloque">
                     <div className="Panel-cabecera">
-                        {/* El contador avisa de solicitudes nuevas sin abrir el desplegable */}
+                        {/* El contador avisa de solicitudes nuevas */}
                         <h2>
                             Solicitudes pendientes
                             { pendientes.length > 0 &&
@@ -342,8 +342,8 @@ const Servicio = ( { nombre, precio } ) => {
     return <span className="Panel-etiqueta">{nombre} {precio}€</span>
 }
 
-/* Mensaje recibido de un usuario: se puede responder o eliminar;
-el cuadro de respuesta se muestra con la clase isActive como en las tabs */
+/* Mensaje recibido de un usuario: se puede responder o eliminar,
+el cuadro de respuesta se muestra con la clase isActive */
 const Mensaje = ( { _id, usuario, mascota, mensaje, respuesta, responderMensaje, eliminarMensaje } ) => {
 
     const [ respondiendo, setRespondiendo ] = useState(false)
@@ -380,7 +380,7 @@ const Mensaje = ( { _id, usuario, mascota, mensaje, respuesta, responderMensaje,
     )
 }
 
-/* Solicitud pendiente: foto de la mascota, datos y botones de aceptar o rechazar */
+/* Solicitud pendiente */
 const Solicitud = ( { _id, mascota, usuario, tipoServicio, fechaInicio, fechaFin, aceptar, rechazar } ) => {
 
     return(
@@ -400,7 +400,7 @@ const Solicitud = ( { _id, mascota, usuario, tipoServicio, fechaInicio, fechaFin
     )
 }
 
-/* Reserva confirmada: fila con los datos y botón para devolverla a pendiente */
+/* Reserva confirmada */
 const Confirmada = ( { _id, mascota, usuario, tipoServicio, fechaInicio, fechaFin, cancelar } ) => {
 
     return (

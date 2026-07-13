@@ -64,7 +64,6 @@ export const Comentarios = ( { cuidadorId } ) => {
 
     return(
         <div className="Comentarios">
-            {/* Las flechas van sobre la ventana, centradas a cada lado del comentario */}
             <div className="Comentarios-ventana">
                 {/* El translate desplaza la fila -100% por cada comentario avanzado */}
                 <div className="Comentarios-wrapper" style={{ translate: `-${ actual * 100 }% 0` }}>
@@ -105,7 +104,7 @@ const Comentario = ( { texto, usuario } ) => {
     )
 }
 
-/* Cada punto recibe su índice: saltar de comentario es cambiar el actual */
+/* Cada punto recibe su índice */
 const Dot = ( { indice, activo, cambiarComentario } ) => {
 
     return(

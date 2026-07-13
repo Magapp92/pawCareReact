@@ -167,7 +167,6 @@ export const PerfilUsuario = () => {
                             </div>
                         </form>
                         : <div className="MiPerfil-datos">
-                                {/* La foto a la izquierda y la información a su derecha */}
                                 <img className="MiPerfil-avatar" src={perfil.avatarUrl} alt={perfil.nombre} />
                                 <div className="MiPerfil-textos">
                                     <p className="MiPerfil-nombre">{perfil.nombre}</p>

@@ -1,21 +1,17 @@
 
-/* FOOTER */
-
-/* Damos estilo al Footer con el color de fondo del tema */
 .Footer{
     background-color: var(--color-footer);
     margin-top: 3rem;
 }
 
-/* En el Footer-inner centramos el contenido con el mismo ancho y padding lateral que el header,
-y un padding superior igual al espacio inferior del copyright */
+/* En el Footer-inner centramos el contenido con el mismo ancho y padding lateral que el header */
 .Footer-inner{
     max-width: 75rem;
     margin: 0 auto;
     padding: 1rem 1.5rem 0;
 }
 
-/* Repartimos las 3 columnas con space-between igual que el header: logo, legal y contacto */
+/* Repartimos las 3 columnas con space-between igual que el header */
 .Footer-columnas{
     display: flex;
     flex-flow: row nowrap;
@@ -35,7 +31,6 @@ y un padding superior igual al espacio inferior del copyright */
     color: var(--color-texto-suave);
 }
 
-/* Damos estilo al título del footer con el mismo patrón de logo que el header */
 .Footer-h3{
     min-height: 3em;
     padding-left: 3em;
@@ -66,14 +61,12 @@ y un padding superior igual al espacio inferior del copyright */
     translate: 0 -50%;
 }
 
-/* Damos estilo a los subtítulos de las secciones Legal y Contacto */
 .Footer-h4{
     font-weight: 600;
     font-size: 1em;
     color: var(--color-texto);
 }
 
-/* Damos estilo a los enlaces legales añadiendo el efecto hover */
 .Footer-col a{
     display: inline;
     color: var(--color-texto-suave);
@@ -83,7 +76,6 @@ y un padding superior igual al espacio inferior del copyright */
     color: var(--color-principal);
 }
 
-/* Damos estilo a la línea de copyright separándola con un borde superior */
 .Footer-copy{
     margin-top: 2rem;
     padding: 1rem;
@@ -94,7 +86,7 @@ y un padding superior igual al espacio inferior del copyright */
     color: var(--color-texto-suave);
 }
 
-/* Para móviles apilamos las columnas del footer para que no se aprieten los textos */
+/* Para móviles apilamos las columnas del footer */
 @media (max-width: 560px){
     .Footer-columnas{
         flex-flow: column nowrap;
@@ -102,7 +94,7 @@ y un padding superior igual al espacio inferior del copyright */
     }
 }
 
-/* Para pantallas grandes ajustamos el logo igual que en el header */
+/* Para pantallas grandes ajustamos el logo */
 @media (min-width: 1600px){
     .Footer-h3{
         min-height: 2.4em;

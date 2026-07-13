@@ -6,22 +6,19 @@ export const Footer = () => {
 
     const location = useLocation()
 
-    /* Visible en todas las rutas menos el login; derivado de la ruta, sin estado */
+    /* Visible en todas las rutas menos el login */
     const visible = location.pathname !== '/login'
 
 
     return(
         <>
-        {/* En el footer agrupamos la marca, los enlaces legales y el contacto;
-        se oculta en la página de login */}
-        { visible &&
+          { visible &&
             <footer className="Footer">
                <div className="Footer-inner">
                   <div className="Footer-columnas">
                     <div className="Footer-col">
-                      {/* alt vacío: imagen decorativa, el título ya dice PawCare */}
                       <h3 className="Footer-h3">
-                        <img className="Footer-logoImg" src="/PawCare.png" alt="" />
+                        <img className="Footer-logoImg" src="/PawCare.png" alt="logo" />
                         PawCare
                       </h3>
                     </div>

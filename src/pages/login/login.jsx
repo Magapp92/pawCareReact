@@ -50,15 +50,13 @@ export const Login = () => {
     }
 
     return (
-    <>
-        {/* En la tarjeta de login agrupamos el título, el email, la contraseña y el tipo de perfil */}
+    <> 
         <main className="Login">
           {/* Imagen de fondo de la pantalla, decorativa */}
           <img className="Login-fondo" src="/fondo_login.webp" alt="" />
           <form className="Login-card" ref={formulario} onSubmit={entrar}>
-            {/* alt vacío: imagen decorativa, el título ya dice PawCare */}
             <h1 className="Login-h1">
-                <img className="Login-logoImg" src="/PawCare.png" alt="" />
+                <img className="Login-logoImg" src="/PawCare.png" alt="fondo" />
                 PawCare
             </h1>
             <p className="Login-subtitulo">Bienvenido a tu comunidad PawCare</p>

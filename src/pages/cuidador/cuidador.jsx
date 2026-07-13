@@ -34,7 +34,7 @@ export const Cuidador = () => {
         nombre, avatarUrl, edad, ubicacion, experienciaAnos, animalesQueAtiende, servicios, preciosPorServicio
      } = cuidador
 
-    /* Servicios activos del cuidador: filtramos el catálogo fijo, como en el panel y el modal */
+    /* Servicios activos del cuidador: filtramos el catálogo fijo */
     const activos = CLAVES_SERVICIO.filter( clave => servicios[clave] )
 
     return(

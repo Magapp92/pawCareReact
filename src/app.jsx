@@ -33,7 +33,7 @@ const App = () => {
 
 export default App
 
-/* En el Wrapper agrupamos el Header, las rutas dentro del main y el Footer;
+/* En el Wrapper agrupamos el Header, las rutas dentro del main y el Footer,
 si hay sesión iniciada redirigimos fuera del login según el rol */
 const Wrapper = () => {
 
@@ -54,8 +54,7 @@ const Wrapper = () => {
         <div className="AppLayout">
             <Header/>
             <main className="AppLayout-main">
-                {/* Las rutas privadas van envueltas en VerificacionRuta que exige sesión iniciada;
-                el Suspense muestra el fallback mientras se descarga la página lazy */}
+                {/* Las rutas privadas van envueltas en VerificacionRuta que exige sesión iniciada */}
                 <Suspense fallback={ <p className="AppLayout-cargando">Cargando...</p> }>
                     <Routes>
                         <Route path="/login" element={ <Login /> } />
