@@ -12,8 +12,7 @@ const comentariosFalsos = [
     { _id: 'falso-5', texto: 'Nos mandó fotos todos los días, se nota que le encantan los animales.', usuario: 'Ana P.', servicio: 'Guardería de día' }
 ]
 
-/* Recibe el id del cuidador por props: carrusel con los comentarios de sus reservas,
-igual que el carrusel de ejemplo pero avanzando solo en bucle infinito */
+/* Recibe el id del cuidador por props: carrusel con los comentarios de sus reservas */
 export const Comentarios = ( { cuidadorId } ) => {
 
     const { VITE_EXPRESS } = import.meta.env
