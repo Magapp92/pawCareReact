@@ -1,9 +1,10 @@
 
 import { useState, useEffect, useRef, useContext } from 'react'
-import { AuthContext } from '../../context/auth-context'
-import { obtenerPrecioServicio } from '../../components/precios/precios'
-import { leerFoto } from '../../components/fotos/fotos'
-import { NOMBRES_SERVICIO, CLAVES_SERVICIO } from '../../const/servicios'
+import { AuthContext } from '@context/auth-context'
+import { obtenerPrecioServicio } from '@components/precios/precios'
+import { leerFoto } from '@components/fotos/fotos'
+import { NOMBRES_SERVICIO, CLAVES_SERVICIO } from '@const/servicios'
+import { pedir } from '@components/peticiones/peticiones'
 import './perfil-cuidador.css'
 
 export const PerfilCuidador = () => {
@@ -17,6 +18,8 @@ export const PerfilCuidador = () => {
     const [ editando, setEditando ] = useState( false )
     const [ pendientesAbierto, setPendientesAbierto ] = useState( false )
     const [ confirmadasAbierto, setConfirmadasAbierto ] = useState( false )
+    /* Mensaje de error de la última petición que haya fallado */
+    const [ error, setError ] = useState('')
 
     const togglePendientes = () => {
         setPendientesAbierto( prev => !prev )
@@ -30,18 +33,24 @@ export const PerfilCuidador = () => {
 
     const getCuidador = async () => {
 
-        const peticion = await fetch(`${ VITE_EXPRESS }/cuidadores/${ usuario._id }`)
-        const { data } = await peticion.json()
+        try {
+            const data = await pedir(`${ VITE_EXPRESS }/cuidadores/${ usuario._id }`)
 
-        setCuidador( data )
+            setCuidador( data )
+        } catch (fallo) {
+            setError( fallo.message )
+        }
     }
 
     const getReservas = async () => {
 
-        const peticion = await fetch(`${ VITE_EXPRESS }/reservas/cuidador/${ usuario._id }`)
-        const { data } = await peticion.json()
+        try {
+            const data = await pedir(`${ VITE_EXPRESS }/reservas/cuidador/${ usuario._id }`)
 
-        setReservas( data )
+            setReservas( data )
+        } catch (fallo) {
+            setError( fallo.message )
+        }
     }
 
     useEffect(() => {
@@ -87,11 +96,15 @@ export const PerfilCuidador = () => {
             body: JSON.stringify( datos )
         }
 
-        await fetch(`${VITE_EXPRESS}/cuidadores/${usuario._id}`, options)
+        try {
+            await pedir(`${VITE_EXPRESS}/cuidadores/${usuario._id}`, options)
 
-        await getCuidador()
-        setEditando( false )
+            await getCuidador()
+            setEditando( false )
+        } catch (fallo) {
+            setError( fallo.message )
         }
+    }
 
         const aceptar = async ( _id ) => {
         
@@ -102,18 +115,28 @@ export const PerfilCuidador = () => {
                 },
             body: JSON.stringify({ estado: 'Confirmada' })
         }
-        await fetch(`${VITE_EXPRESS}/reservas/${ _id }`, options)
 
-        getReservas()
+        try {
+            await pedir(`${VITE_EXPRESS}/reservas/${ _id }`, options)
+
+            getReservas()
+        } catch (fallo) {
+            setError( fallo.message )
+        }
     }
 
     const rechazar = async ( _id ) => {
         const options = { 
             method: 'DELETE' 
         }
-        await fetch(`${VITE_EXPRESS}/reservas/${ _id }`, options)
 
-        getReservas()
+        try {
+            await pedir(`${VITE_EXPRESS}/reservas/${ _id }`, options)
+
+            getReservas()
+        } catch (fallo) {
+            setError( fallo.message )
+        }
     }
 
     const devolverPendiente = async ( _id ) => {
@@ -125,9 +148,14 @@ export const PerfilCuidador = () => {
             },
             body: JSON.stringify({ estado: 'Pendiente' })
         }
-        await fetch(`${VITE_EXPRESS}/reservas/${ _id }`, options)
 
-        getReservas()
+        try {
+            await pedir(`${VITE_EXPRESS}/reservas/${ _id }`, options)
+
+            getReservas()
+        } catch (fallo) {
+            setError( fallo.message )
+        }
     }
 
     /* Guarda la respuesta del cuidador al mensaje de la reserva */
@@ -140,9 +168,14 @@ export const PerfilCuidador = () => {
             },
             body: JSON.stringify({ respuesta })
         }
-        await fetch(`${VITE_EXPRESS}/reservas/${ _id }`, options)
 
-        getReservas()
+        try {
+            await pedir(`${VITE_EXPRESS}/reservas/${ _id }`, options)
+
+            getReservas()
+        } catch (fallo) {
+            setError( fallo.message )
+        }
     }
 
     /* Borra el mensaje de la reserva vaciando sus campos */
@@ -155,9 +188,19 @@ export const PerfilCuidador = () => {
             },
             body: JSON.stringify({ mensaje: '', respuesta: '' })
         }
-        await fetch(`${VITE_EXPRESS}/reservas/${ _id }`, options)
 
-        getReservas()
+        try {
+            await pedir(`${VITE_EXPRESS}/reservas/${ _id }`, options)
+
+            getReservas()
+        } catch (fallo) {
+            setError( fallo.message )
+        }
+    }
+
+    /* Si la API falla antes de tener el cuidador mostramos el motivo en vez del Cargando */
+    if (error && !cuidador) {
+        return <p className="AppLayout-error">{error}</p>
     }
 
     if (!cuidador) {
@@ -183,6 +226,7 @@ export const PerfilCuidador = () => {
 
     return (
         <>
+        { error && <p className="AppLayout-error">{error}</p> }
         {/* Dividimos el panel en 2 columnas: lateral (perfil y datos editables) y principal (reservas) */}
         <div className="Panel-grid">
             <div className="Panel-lateral">

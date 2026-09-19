@@ -17,3 +17,10 @@ para que el footer quede siempre abajo */
   padding: 2rem;
   text-align: center;
 }
+
+/* Mensaje de error de las páginas cuando la API falla, centrado como el de carga */
+.AppLayout-error {
+  padding: 2rem;
+  text-align: center;
+  color: var(--color-rojo);
+}

@@ -1,5 +1,5 @@
 
-import { CLAVES_SERVICIO } from '../../const/servicios'
+import { CLAVES_SERVICIO } from '@const/servicios'
 
 export const obtenerPrecioServicio = (preciosPorServicio, clave) => {
 

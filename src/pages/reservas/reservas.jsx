@@ -1,7 +1,8 @@
 
 import { useState, useEffect, useRef, useContext } from 'react'
-import { AuthContext } from '../../context/auth-context'
-import { NOMBRES_SERVICIO, HORAS_RESERVA } from '../../const/servicios'
+import { AuthContext } from '@context/auth-context'
+import { NOMBRES_SERVICIO, HORAS_RESERVA } from '@const/servicios'
+import { pedir } from '@components/peticiones/peticiones'
 import './reservas.css'
 
 export const Reservas = () => {
@@ -12,21 +13,29 @@ export const Reservas = () => {
 
     const [ reservas, setReservas ] = useState([])
     const [ cuidadores, setCuidadores ] = useState([])
+    /* Mensaje de error de la última petición que haya fallado */
+    const [ error, setError ] = useState('')
 
     const getReservas = async () => {
 
-        const peticion = await fetch(`${VITE_EXPRESS}/reservas/usuario/${usuario._id}`)
-        const { data } = await peticion.json()
+        try {
+            const data = await pedir(`${VITE_EXPRESS}/reservas/usuario/${usuario._id}`)
 
-        setReservas(data)
+            setReservas(data)
+        } catch (fallo) {
+            setError( fallo.message )
+        }
     }
 
     const getCuidadores = async () => {
 
-        const peticion = await fetch(`${VITE_EXPRESS}/cuidadores`)
-        const { data } = await peticion.json()
+        try {
+            const data = await pedir(`${VITE_EXPRESS}/cuidadores`)
 
-        setCuidadores(data)
+            setCuidadores(data)
+        } catch (fallo) {
+            setError( fallo.message )
+        }
     }
 
     useEffect(() => {
@@ -43,9 +52,13 @@ export const Reservas = () => {
             },
             body: JSON.stringify(datos)
         }
-        await fetch(`${VITE_EXPRESS}/reservas/${ _id }`, options)
+        try {
+            await pedir(`${VITE_EXPRESS}/reservas/${ _id }`, options)
 
-        await getReservas()
+            await getReservas()
+        } catch (fallo) {
+            setError( fallo.message )
+        }
     }
 
     const cancelarReserva = async ( _id ) => {
@@ -53,14 +66,19 @@ export const Reservas = () => {
         const options = { 
             method: 'DELETE' 
         }
-        await fetch(`${VITE_EXPRESS}/reservas/${ _id }`, options)
+        try {
+            await pedir(`${VITE_EXPRESS}/reservas/${ _id }`, options)
 
-        getReservas()
+            getReservas()
+        } catch (fallo) {
+            setError( fallo.message )
+        }
     }
 
         return (
         <main className="Reservas">
             <h1 className="Reservas-titulo">Mis reservas</h1>
+            { error && <p className="AppLayout-error">{error}</p> }
             {/* Mostramos una tarjeta por reserva; pasamos el cuidador actual para mostrar sus datos actualizados */}
             { reservas.length === 0 && <p>Aún no tienes reservas.</p> }
             <div className="Reservas-lista">
@@ -138,11 +156,14 @@ const Reserva = ( { _id, cuidador, cuidadorActual, mascota, fechaInicio, fechaFi
 
     const empezarEdicion = async () => {
 
-        const peticion = await fetch(`${VITE_EXPRESS}/reservas/${_id}`)
-        const { data } = await peticion.json()
+        try {
+            const data = await pedir(`${VITE_EXPRESS}/reservas/${_id}`)
 
-        setServicio(data.tipoServicio)
-        setEditando(data)
+            setServicio(data.tipoServicio)
+            setEditando(data)
+        } catch (fallo) {
+            setError( fallo.message )
+        }
     }
 
     /* Paseo/peluquería: un día y una hora · guardería: un día con rango de horas · larga estancia: rango de fechas */

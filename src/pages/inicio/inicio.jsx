@@ -1,17 +1,17 @@
 
 import { useState, useRef } from 'react'
 import { Link } from 'react-router-dom'
-import { Reservar } from '../../components/reservar/reservar'
-import { obtenerPrecioServicio, obtenerPrecioPrimerServicio } from '../../components/precios/precios'
-import { useCuidadores } from '../../hooks/use-cuidadores'
-import { LISTA_ANIMALES } from '../../const/servicios'
+import { Reservar } from '@components/reservar/reservar'
+import { obtenerPrecioServicio, obtenerPrecioPrimerServicio } from '@components/precios/precios'
+import { useCuidadores } from '@hooks/use-cuidadores'
+import { LISTA_ANIMALES } from '@const/servicios'
 import "./inicio.css"
 
 export const Inicio = () => {
 
     const formulario = useRef( null )
 
-    const { cuidadores, buscarCuidadores } = useCuidadores()
+    const { cuidadores, error, buscarCuidadores } = useCuidadores()
 
     const [ servicioFiltro, setServicioFiltro ] = useState('')
     const [ animalesFiltro, setAnimalesFiltro ] = useState([])
@@ -68,7 +68,8 @@ export const Inicio = () => {
         {/* En la sección de resultados listamos una tarjeta por cada cuidador encontrado */}
         <section className="Inicio-resultados">
             <h2>Conoce a nuestros profesionales</h2>
-            { cuidadores.length === 0 &&
+            { error && <p className="AppLayout-error">{error}</p> }
+            { !error && cuidadores.length === 0 &&
             <p>No hay cuidadores</p>
             }
             <div className="Inicio-lista">

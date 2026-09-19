@@ -1,9 +1,10 @@
 
 import { useState, useRef, useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { AuthContext } from '../../context/auth-context'
-import { obtenerPrecioServicio } from '../precios/precios'
-import { NOMBRES_SERVICIO, CLAVES_SERVICIO, HORAS_RESERVA } from '../../const/servicios'
+import { AuthContext } from '@context/auth-context'
+import { obtenerPrecioServicio } from '@components/precios/precios'
+import { NOMBRES_SERVICIO, CLAVES_SERVICIO, HORAS_RESERVA, FECHA_HOY } from '@const/servicios'
+import { pedir } from '@components/peticiones/peticiones'
 import './reservar.css'
 
 /* Recibe el cuidador entero por props: botón que abre un modo para crear la reserva */
@@ -30,16 +31,23 @@ export const Reservar = ({ cuidador }) => {
 
     const mascotas = abierto?.mascotas || []
 
+    /* Mensaje de error si falla la carga del perfil o el guardado de la reserva */
+    const [ error, setError ] = useState('')
+
     const abrir = async () => {
 
-        const peticion = await fetch(`${VITE_EXPRESS}/perfiles/${usuario._id}`)
-        const { data } = await peticion.json()
-      
-        setAbierto(data)
+        try {
+            const data = await pedir(`${VITE_EXPRESS}/perfiles/${usuario._id}`)
+
+            setAbierto(data)
+        } catch (fallo) {
+            setError( fallo.message )
+        }
     }
 
     const cerrar = () => {
         setAbierto(null)
+        setError('')
     }
 
     
@@ -55,7 +63,13 @@ export const Reservar = ({ cuidador }) => {
         const datosForm = new FormData( campos )
         const marcadas = datosForm.getAll('mascotas')
 
-        if (marcadas.length === 0) return
+        /* Sin mascota marcada no hay reserva: avisamos en vez de no hacer nada */
+        if (marcadas.length === 0) {
+            setError('Marca al menos una mascota')
+            return
+        }
+
+        setError('')
         let fechaInicio
         let fechaFin
 
@@ -99,25 +113,31 @@ export const Reservar = ({ cuidador }) => {
 
        })
           
-       for (const datos of listaDatos){
+       try {
+            for (const datos of listaDatos){
 
-            const options = {
-                method: 'POST',
-                headers: { 
-                    'Content-type': 'application/json' 
-                },
-                body: JSON.stringify(datos)
+                const options = {
+                    method: 'POST',
+                    headers: { 
+                        'Content-type': 'application/json' 
+                    },
+                    body: JSON.stringify(datos)
+                }
+                await pedir(`${VITE_EXPRESS}/reservas`, options)
             }
-            await fetch(`${VITE_EXPRESS}/reservas`, options)
-        }
 
-        cerrar()
-        navigate('/mis-reservas')
+            cerrar()
+            navigate('/mis-reservas')
+        } catch (fallo) {
+            setError( fallo.message )
+        }
     }
 
     return (
         <>
             <button className="Reservar-boton" type="button" onClick={abrir}>Reservar</button>
+            {/* Con el modal cerrado el aviso va bajo el boton (por ejemplo si no carga el perfil); abierto, dentro del modal */}
+            { error && !abierto && <p className="AppLayout-error">{error}</p> }
             {/* Como en el lightbox, el fondo siempre está renderizado y se muestra alternando la clase isVisible */}
             <div className={`Reservar-fondo ${ abierto ? `isVisible` : `` }`} onClick={cerrar}>
                     <form className="Reservar-modal" ref={formulario} onSubmit={guardarReserva} onClick={(e) => e.stopPropagation()}>
@@ -148,7 +168,7 @@ export const Reservar = ({ cuidador }) => {
                                     <div className="Reservar-fechas">
                                         <label className="Reservar-campo">
                                             <span>Día</span>
-                                            <input type="date" name="dia" required />
+                                            <input type="date" name="dia" min={FECHA_HOY} required />
                                         </label>
                                         <label className="Reservar-campo">
                                             <span>Hora</span>
@@ -166,7 +186,7 @@ export const Reservar = ({ cuidador }) => {
                                     <>
                                         <label className="Reservar-campo">
                                             <span>Día</span>
-                                            <input type="date" name="dia" required />
+                                            <input type="date" name="dia" min={FECHA_HOY} required />
                                         </label>
                                         <div className="Reservar-fechas">
                                             <label className="Reservar-campo">
@@ -194,14 +214,15 @@ export const Reservar = ({ cuidador }) => {
                                     <div className="Reservar-fechas">
                                         <label className="Reservar-campo">
                                             <span>Fecha inicio</span>
-                                            <input type="date" name="fechaInicio" required />
+                                            <input type="date" name="fechaInicio" min={FECHA_HOY} required />
                                         </label>
                                         <label className="Reservar-campo">
                                             <span>Fecha fin</span>
-                                            <input type="date" name="fechaFin" required />
+                                            <input type="date" name="fechaFin" min={FECHA_HOY} required />
                                         </label>
                                     </div>
                                 }
+                                { error && <p className="AppLayout-error">{error}</p> }
                                 <div className="Reservar-acciones">
                                     <button className="Reservar-cancelar" type="button" onClick={cerrar}>Cancelar</button>
                                     <button className="Reservar-confirmar" type="submit">Confirmar reserva</button>

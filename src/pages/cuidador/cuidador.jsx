@@ -1,10 +1,11 @@
 
 import { useState, useEffect } from 'react'
 import { useParams, Link } from 'react-router-dom'
-import { Reservar } from '../../components/reservar/reservar'
-import { Comentarios } from '../../components/comentarios/comentarios'
-import { obtenerPrecioServicio } from '../../components/precios/precios'
-import { NOMBRES_SERVICIO, CLAVES_SERVICIO } from '../../const/servicios'
+import { Reservar } from '@components/reservar/reservar'
+import { Comentarios } from '@components/comentarios/comentarios'
+import { obtenerPrecioServicio } from '@components/precios/precios'
+import { NOMBRES_SERVICIO, CLAVES_SERVICIO } from '@const/servicios'
+import { pedir } from '@components/peticiones/peticiones'
 import './cuidador.css'
 
 export const Cuidador = () => {
@@ -13,18 +14,27 @@ export const Cuidador = () => {
     const { id } = useParams()
 
     const [ cuidador, setCuidador ] = useState( null )
+    const [ error, setError ] = useState('')
 
     const getCuidador = async () => {
 
-        const peticion = await fetch(`${VITE_EXPRESS}/cuidadores/${ id }`)
-        const { data } = await peticion.json()
+        try {
+            const data = await pedir(`${VITE_EXPRESS}/cuidadores/${ id }`)
 
-        setCuidador( data )
+            setCuidador( data )
+        } catch (fallo) {
+            setError( fallo.message )
+        }
     }
 
     useEffect(() => {
         getCuidador()
     }, [])
+
+    /* Si la API falla mostramos el motivo en vez de dejar el Cargando para siempre */
+    if (error) {
+        return <p className="AppLayout-error">{error}</p>
+    }
 
     if (!cuidador) {
         return <p className="Perfil-cargando">Cargando...</p>

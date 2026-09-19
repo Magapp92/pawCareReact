@@ -1,6 +1,7 @@
 
 import { useState, useEffect } from 'react'
-import { NOMBRES_SERVICIO } from '../../const/servicios'
+import { NOMBRES_SERVICIO } from '@const/servicios'
+import { pedir } from '@components/peticiones/peticiones'
 import './comentarios.css'
 
 /* Comentarios falsos de base para que el carrusel siempre tenga contenido */
@@ -23,20 +24,23 @@ export const Comentarios = ( { cuidadorId } ) => {
 
     const getComentarios = async () => {
 
-        const peticion = await fetch(`${VITE_EXPRESS}/reservas/cuidador/${cuidadorId}`)
-        const { data } = await peticion.json()
+        try {
+            const data = await pedir(`${VITE_EXPRESS}/reservas/cuidador/${cuidadorId}`)
 
-        /* A los comentarios falsos les añadimos los reales de las reservas comentadas */
-        const comentariosReales = data
-            .filter( ({ comentario }) => comentario )
-            .map( ({ _id, comentario, usuario, tipoServicio }) => ({
-                _id,
-                texto: comentario,
-                usuario: usuario.nombre,
-                servicio: NOMBRES_SERVICIO[tipoServicio] || tipoServicio
-            }))
+            /* A los comentarios falsos les añadimos los reales de las reservas comentadas */
+            const comentariosReales = data
+                .filter( ({ comentario }) => comentario )
+                .map( ({ _id, comentario, usuario, tipoServicio }) => ({
+                    _id,
+                    texto: comentario,
+                    usuario: usuario.nombre,
+                    servicio: NOMBRES_SERVICIO[tipoServicio] || tipoServicio
+                }))
 
-        setComentarios([...comentariosFalsos, ...comentariosReales])
+            setComentarios([...comentariosFalsos, ...comentariosReales])
+        } catch {
+            /* Si la API falla el carrusel se queda con los comentarios de base */
+        }
     }
 
     useEffect(() => {

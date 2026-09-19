@@ -1,9 +1,10 @@
 
 import { useState, useEffect,useRef, useContext } from 'react'
 import { Link } from 'react-router-dom'
-import { AuthContext } from '../../context/auth-context'
-import { leerFoto } from '../../components/fotos/fotos'
-import { NOMBRES_SERVICIO } from '../../const/servicios'
+import { AuthContext } from '@context/auth-context'
+import { leerFoto } from '@components/fotos/fotos'
+import { NOMBRES_SERVICIO } from '@const/servicios'
+import { pedir } from '@components/peticiones/peticiones'
 import "./perfil-usuario.css"
 
 export const PerfilUsuario = () => {
@@ -16,29 +17,40 @@ export const PerfilUsuario = () => {
     const [ cuidadores, setCuidadores ] = useState([])
     const [ editandoDatos, setEditandoDatos ] = useState(false)
     const [ anadiendo, setAnadiendo ] = useState(false)
+    /* Mensaje de error de la última petición que haya fallado */
+    const [ error, setError ] = useState('')
 
     const formularioDatos = useRef(null)
     const formularioMascota = useRef(null)
 
     const getPerfil = async () => {
-        const peticion = await fetch(`${VITE_EXPRESS}/perfiles/${usuario._id}`)
-        const { data } = await peticion.json()
+        try {
+            const data = await pedir(`${VITE_EXPRESS}/perfiles/${usuario._id}`)
 
-        setPerfil( data )
+            setPerfil( data )
+        } catch (fallo) {
+            setError( fallo.message )
+        }
     }
 
     const getReservas = async () => {
-        const peticion = await fetch(`${VITE_EXPRESS}/reservas/usuario/${usuario._id}`)
-        const { data } = await peticion.json()
+        try {
+            const data = await pedir(`${VITE_EXPRESS}/reservas/usuario/${usuario._id}`)
 
-        setReservas( data )
+            setReservas( data )
+        } catch (fallo) {
+            setError( fallo.message )
+        }
     }
 
     const getCuidadores = async () => {
-        const peticion = await fetch(`${VITE_EXPRESS}/cuidadores`)
-        const { data } = await peticion.json()
+        try {
+            const data = await pedir(`${VITE_EXPRESS}/cuidadores`)
 
-        setCuidadores( data )
+            setCuidadores( data )
+        } catch (fallo) {
+            setError( fallo.message )
+        }
     }
 
     useEffect(() => {
@@ -66,10 +78,14 @@ export const PerfilUsuario = () => {
             },
             body: JSON.stringify( datos )
         }
-        await fetch(`${VITE_EXPRESS}/perfiles/${usuario._id}`, options)
+        try {
+            await pedir(`${VITE_EXPRESS}/perfiles/${usuario._id}`, options)
 
-        await getPerfil()
-        setEditandoDatos(false)
+            await getPerfil()
+            setEditandoDatos(false)
+        } catch (fallo) {
+            setError( fallo.message )
+        }
     }
 
     const guardarMascota = async ( e ) => {
@@ -94,10 +110,14 @@ export const PerfilUsuario = () => {
             body: JSON.stringify( datos )
         }
 
-        await fetch(`${VITE_EXPRESS}/perfiles/${usuario._id}/mascotas`, options)
+        try {
+            await pedir(`${VITE_EXPRESS}/perfiles/${usuario._id}/mascotas`, options)
 
-        await getPerfil()
-        setAnadiendo(false)
+            await getPerfil()
+            setAnadiendo(false)
+        } catch (fallo) {
+            setError( fallo.message )
+        }
     }
 
     const editarMascota = async (_id, datos) => {
@@ -110,18 +130,31 @@ export const PerfilUsuario = () => {
             body: JSON.stringify( datos )
         }
 
-        await fetch(`${VITE_EXPRESS}/perfiles/${usuario._id}/mascotas/${_id}`, options)
+        try {
+            await pedir(`${VITE_EXPRESS}/perfiles/${usuario._id}/mascotas/${_id}`, options)
 
-        await getPerfil()
+            await getPerfil()
+        } catch (fallo) {
+            setError( fallo.message )
+        }
     }
 
     const eliminarMascota = async (_id) => {
         const options = { 
             method: 'DELETE' 
         }
-        await fetch(`${VITE_EXPRESS}/perfiles/${usuario._id}/mascotas/${_id}`, options)
+        try {
+            await pedir(`${VITE_EXPRESS}/perfiles/${usuario._id}/mascotas/${_id}`, options)
 
-        getPerfil()
+            getPerfil()
+        } catch (fallo) {
+            setError( fallo.message )
+        }
+    }
+
+    /* Si la API falla antes de tener el perfil mostramos el motivo en vez del Cargando */
+    if (error && !perfil) {
+        return <p className="AppLayout-error">{error}</p>
     }
 
     if (!perfil) {
@@ -133,6 +166,7 @@ export const PerfilUsuario = () => {
         <main className="MiPerfil">
             <h1 className="MiPerfil-titulo">Mi perfil</h1>
             <p className="MiPerfil-subtitulo">Gestiona tu información personal, tus mascotas y tus reservas.</p>
+            { error && <p className="AppLayout-error">{error}</p> }
             <div className="MiPerfil-grid">
                 <div className="MiPerfil-columna">
                     <section className="MiPerfil-wrapper">

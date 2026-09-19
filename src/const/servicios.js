@@ -18,3 +18,10 @@ export const HORAS_RESERVA = Array.from({ length: 24 * 4 }, (nada, indice) => {
     const minutos = String((indice % 4) * 15).padStart(2, '0')
     return `${horas}:${minutos}`
 })
+
+/* La fecha de hoy en el formato de los input date ('2026-09-19'), para no admitir reservas en días pasados */
+const fecha = new Date()
+const anio = fecha.getFullYear()
+const mes = String(fecha.getMonth() + 1).padStart(2, '0')
+const dia = String(fecha.getDate()).padStart(2, '0')
+export const FECHA_HOY = `${anio}-${mes}-${dia}`

@@ -1,5 +1,6 @@
 
 import { useState, useEffect } from 'react'
+import { pedir } from '@components/peticiones/peticiones'
 
 export const useCuidadores = () => {
 
@@ -7,12 +8,18 @@ export const useCuidadores = () => {
 
     const [ cuidadores, setCuidadores ] = useState([])
 
+    /* Mensaje de error si la API no responde; la página lo muestra en vez de una lista vacía */
+    const [ error, setError ] = useState('')
+
     const getCuidadores = async () => {
 
-        const peticion = await fetch(`${VITE_EXPRESS}/cuidadores`)
-        const { data } = await peticion.json()
+        try {
+            const data = await pedir(`${VITE_EXPRESS}/cuidadores`)
 
-        setCuidadores(data)
+            setCuidadores(data)
+        } catch (fallo) {
+            setError( fallo.message )
+        }
     }
 
     useEffect(() => {
@@ -30,18 +37,20 @@ export const useCuidadores = () => {
             url = `${VITE_EXPRESS}/cuidadores/ubicacion/${ubicacion}`
         }
 
-        const peticion = await fetch(url)
+        try {
+            const data = await pedir(url)
 
-        const { data } = await peticion.json()
+            let lista = data
 
-        let lista = data
+            if (servicio) lista = lista.filter(cuidador => cuidador.servicios[servicio])
+            if (ubicacion) lista = lista.filter(cuidador => cuidador.ubicacion.toLowerCase().includes(ubicacion.toLowerCase()))
+            if (animales && animales.length > 0) lista = lista.filter(cuidador => animales.every(animal => cuidador.animalesQueAtiende.includes(animal)))
 
-        if (servicio) lista = lista.filter(cuidador => cuidador.servicios[servicio])
-        if (ubicacion) lista = lista.filter(cuidador => cuidador.ubicacion.toLowerCase().includes(ubicacion.toLowerCase()))
-        if (animales && animales.length > 0) lista = lista.filter(cuidador => animales.every(animal => cuidador.animalesQueAtiende.includes(animal)))
-
-        setCuidadores(lista)
+            setCuidadores(lista)
+        } catch (fallo) {
+            setError( fallo.message )
+        }
     }
 
-    return { cuidadores, buscarCuidadores }
+    return { cuidadores, error, buscarCuidadores }
 }

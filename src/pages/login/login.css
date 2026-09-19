@@ -135,6 +135,14 @@ con el position relative sirve de referencia para colocar la imagen de fondo det
     background-color: var(--color-principal-oscuro);
 }
 
+/* Mensaje de error del login, en el rojo de la paleta */
+.Login-error{
+    margin: 0;
+    color: var(--color-rojo);
+    font-size: .9rem;
+    text-align: center;
+}
+
 /* Para móviles reducimos el padding de la tarjeta */
 @media (max-width: 480px){
     .Login-card{

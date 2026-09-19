@@ -1,24 +1,24 @@
 
 import { useContext, useEffect, lazy, Suspense } from 'react'
-import { BrowserRouter, Routes, Route, useLocation, useNavigate } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Navigate, useLocation, useNavigate } from 'react-router-dom'
 import './app.css'
 
-import { Header } from './components/header/header.jsx'
-import { Footer } from './components/footer/footer.jsx'
-import { VerificacionRuta } from './components/verificacion-ruta/verificacion-ruta.jsx'
-import { AuthContext } from './context/auth-context.jsx'
-import { AuthProvider } from './context/auth-context.jsx'
+import { Header } from '@components/header/header.jsx'
+import { Footer } from '@components/footer/footer.jsx'
+import { VerificacionRuta } from '@components/verificacion-ruta/verificacion-ruta.jsx'
+import { AuthContext } from '@context/auth-context.jsx'
+import { AuthProvider } from '@context/auth-context.jsx'
 
 /* Cada página se carga con lazy solo cuando se visita su ruta; como usamos
 exports con nombre, el then los convierte al default que lazy espera */
-const Login = lazy( () => import('./pages/login/login.jsx').then( ({ Login }) => ({ default: Login }) ) )
-const Inicio = lazy( () => import('./pages/inicio/inicio.jsx').then( ({ Inicio }) => ({ default: Inicio }) ) )
-const Cuidador = lazy( () => import('./pages/cuidador/cuidador.jsx').then( ({ Cuidador }) => ({ default: Cuidador }) ) )
-const PerfilCuidador = lazy( () => import('./pages/perfil-cuidador/perfil-cuidador.jsx').then( ({ PerfilCuidador }) => ({ default: PerfilCuidador }) ) )
-const Reservas = lazy( () => import('./pages/reservas/reservas.jsx').then( ({ Reservas }) => ({ default: Reservas }) ) )
-const PerfilUsuario = lazy( () => import('./pages/perfil-usuario/perfil-usuario.jsx').then( ({ PerfilUsuario }) => ({ default: PerfilUsuario }) ) )
-const AvisoLegal = lazy( () => import('./pages/aviso-legal/aviso-legal.jsx').then( ({ AvisoLegal }) => ({ default: AvisoLegal }) ) )
-const Privacidad = lazy( () => import('./pages/privacidad/privacidad.jsx').then( ({ Privacidad }) => ({ default: Privacidad }) ) )
+const Login = lazy( () => import('@pages/login/login.jsx').then( ({ Login }) => ({ default: Login }) ) )
+const Inicio = lazy( () => import('@pages/inicio/inicio.jsx').then( ({ Inicio }) => ({ default: Inicio }) ) )
+const Cuidador = lazy( () => import('@pages/cuidador/cuidador.jsx').then( ({ Cuidador }) => ({ default: Cuidador }) ) )
+const PerfilCuidador = lazy( () => import('@pages/perfil-cuidador/perfil-cuidador.jsx').then( ({ PerfilCuidador }) => ({ default: PerfilCuidador }) ) )
+const Reservas = lazy( () => import('@pages/reservas/reservas.jsx').then( ({ Reservas }) => ({ default: Reservas }) ) )
+const PerfilUsuario = lazy( () => import('@pages/perfil-usuario/perfil-usuario.jsx').then( ({ PerfilUsuario }) => ({ default: PerfilUsuario }) ) )
+const AvisoLegal = lazy( () => import('@pages/aviso-legal/aviso-legal.jsx').then( ({ AvisoLegal }) => ({ default: AvisoLegal }) ) )
+const Privacidad = lazy( () => import('@pages/privacidad/privacidad.jsx').then( ({ Privacidad }) => ({ default: Privacidad }) ) )
 
 /* Envolvemos la app con el AuthProvider para compartir la sesión y con el BrowserRouter para las rutas */
 const App = () => {
@@ -65,6 +65,8 @@ const Wrapper = () => {
                         <Route path="/perfil" element={ <VerificacionRuta><PerfilUsuario /></VerificacionRuta> } />
                         <Route path="/Aviso-legal" element={ <AvisoLegal /> } />
                         <Route path="/Privacidad" element={ <Privacidad /> } />
+                        {/* Cualquier ruta desconocida lleva al login */}
+                        <Route path="*" element={ <Navigate to="/login" replace /> } />
                     </Routes>
                 </Suspense>
             </main>

@@ -1,7 +1,8 @@
 
-import { useRef, useContext } from 'react'
+import { useRef, useState, useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { AuthContext } from '../../context/auth-context'
+import { AuthContext } from '@context/auth-context'
+import { pedir } from '@components/peticiones/peticiones'
 import "./login.css"
 
 export const Login = () => {
@@ -14,9 +15,13 @@ export const Login = () => {
 
     const formulario = useRef(null)
 
+    /* Mensaje de error visible si el login falla */
+    const [ error, setError ] = useState('')
+
     const entrar = async ( e ) => {
         e.preventDefault()
-     
+        setError('')
+
         const { email, password, perfil } = formulario.current
 
         const datos = {
@@ -33,19 +38,19 @@ export const Login = () => {
             body : JSON.stringify( datos )
         }
 
-        const peticion = await fetch( `${VITE_EXPRESS}/login`, options )
+        try {
+            const data = await pedir( `${VITE_EXPRESS}/login`, options )
 
-        const { data } = await peticion.json()
+            iniciarSesion( data )
 
-        if ( data ) {
-
-        iniciarSesion( data )
-
-        if ( data.rol === 'cuidador' ){
-            navigate('/panel')
-        } else {
-            navigate('/')
-        }
+            if ( data.rol === 'cuidador' ){
+                navigate('/panel')
+            } else {
+                navigate('/')
+            }
+        } catch (fallo) {
+            /* 401: credenciales incorrectas · 503: base de datos no disponible · sin red: su mensaje */
+            setError( fallo.message )
         }
     }
 
@@ -77,6 +82,7 @@ export const Login = () => {
                     <option value="cuidador">Cuidador</option>
                   </select>
             </label>
+            { error && <p className="Login-error">{error}</p> }
             <button className="Login-boton" type="submit">Iniciar sesión</button>
           </form>
         </main>
