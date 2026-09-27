@@ -1,7 +1,7 @@
 
 import { useState, useEffect, useRef, useContext } from 'react'
 import { AuthContext } from '@context/auth-context'
-import { NOMBRES_SERVICIO, HORAS_RESERVA } from '@const/servicios'
+import { NOMBRES_SERVICIO, HORAS_RESERVA, ahora } from '@const/servicios'
 import { pedir } from '@components/peticiones/peticiones'
 import './reservas.css'
 
@@ -38,9 +38,14 @@ export const Reservas = () => {
         }
     }
 
+    /* Cada 15s se vuelven a pedir las reservas para ver las respuestas del cuidador sintener que recargar */
     useEffect(() => {
         getReservas()
         getCuidadores()
+
+        const recarga = setInterval(getReservas, 15000)
+
+        return () => clearInterval(recarga)
     }, [])
 
     const editarReserva = async ( _id, datos ) => {
@@ -95,12 +100,16 @@ export const Reservas = () => {
 /* Tarjeta de una reserva: en modo vista muestra los datos y en modo edición un formulario
 para cambiar el servicio y las fechas */
 const Reserva = ( { _id, cuidador, cuidadorActual, mascota, fechaInicio, fechaFin, tipoServicio,
-    estado, coste, comentario, mensaje, respuesta, editarReserva, cancelarReserva } ) => {
+    estado, coste, comentario, mensajes = [], editarReserva, cancelarReserva } ) => {
 
     const { VITE_EXPRESS } = import.meta.env
 
     const nombreCuidador = cuidadorActual?.nombre || cuidador.nombre
     const fotoCuidador = cuidadorActual?.avatarUrl || cuidador.avatarUrl
+
+    /* Solo los mensajes que el usuario no ha borrado de su lado */
+    const visibles = mensajes.filter( ({ borradoPor }) => !borradoPor.includes('usuario') )
+    const respuestas = visibles.filter( ({ autor }) => autor === 'cuidador' )
 
     const [ editando, setEditando ] = useState(null)
     const [ servicio, setServicio ] = useState(null)
@@ -123,19 +132,26 @@ const Reserva = ( { _id, cuidador, cuidadorActual, mascota, fechaInicio, fechaFi
         setConversacionAbierta( prev => !prev )
     }
 
-    /* Borra la conversación con el cuidador vaciando sus campos */
+    /* Oculta la conversación solo para el usuario: el cuidador sigue viéndola */
     const borrarConversacion = async () => {
-        await editarReserva(_id, { mensaje: '', respuesta: '' })
+        const ocultos = mensajes.map( mensaje => ({ ...mensaje, borradoPor: [...mensaje.borradoPor, 'usuario'] }) )
+
+        await editarReserva(_id, { mensajes: ocultos })
     }
 
-    /* Envía una pregunta o sugerencia al cuidador de la reserva */
+    /* Envía una pregunta o sugerencia al cuidador, se añade al final de la conversación */
     const contestarMensaje = async ( e ) => {
         e.preventDefault()
 
         const { mensaje } = formularioMensaje.current
 
-        await editarReserva(_id, { mensaje: mensaje.value })
+        if (!mensaje.value.trim()) return
 
+        const nuevo = { autor: 'usuario', texto: mensaje.value.trim(), fecha: ahora(), borradoPor: [] }
+
+        await editarReserva(_id, { mensajes: [...mensajes, nuevo] })
+
+        formularioMensaje.current.reset()
         setEnviandoMensaje(false)
     }
 
@@ -166,7 +182,7 @@ const Reserva = ( { _id, cuidador, cuidadorActual, mascota, fechaInicio, fechaFi
         }
     }
 
-    /* Paseo/peluquería: un día y una hora · guardería: un día con rango de horas · larga estancia: rango de fechas */
+    /* Paseo/peluquería: un día y una hora, guardería: un día con rango de horas, larga estancia: rango de fechas */
     const mismoDia = servicio === 'paseador' || servicio === 'peluqueria'
     const esGuarderia = servicio === 'cuidadoDiario'
 
@@ -307,16 +323,16 @@ const Reserva = ( { _id, cuidador, cuidadorActual, mascota, fechaInicio, fechaFi
                             <button className="Reserva-comentar" type="submit">Comentar</button>
                         </form>
                         <form className={`Reserva-comentario ${ enviandoMensaje ? `isActive` : `` }`} ref={formularioMensaje} onSubmit={contestarMensaje}>
-                            <input name="mensaje" defaultValue={mensaje} placeholder="Escribe una pregunta o sugerencia al cuidador" />
+                            <input name="mensaje" placeholder="Escribe una pregunta o sugerencia al cuidador" />
                             <button className="Reserva-comentar" type="submit">Enviar</button>
                         </form>
                         {/* Cabecera del desplegable de la conversación: la flecha alterna el estado */}
-                        { mensaje &&
+                        { visibles.length > 0 &&
                             <div className="Reserva-conversacionCabecera">
                                 <span>Conversación</span>
-                                {/* El +1 avisa de la respuesta del cuidador sin abrir el desplegable */}
-                                { respuesta &&
-                                    <span className="Reserva-contador">+1</span>
+                                {/* El contador avisa de cuántas respuestas hay del cuidador sin abrir el desplegable */}
+                                { respuestas.length > 0 &&
+                                    <span className="Reserva-contador">+{respuestas.length}</span>
                                 }
                                 <button className="Reserva-desplegar" type="button" onClick={toggleConversacion} aria-label="Desplegar conversación">
                                     <svg className={`Reserva-flecha ${ conversacionAbierta ? `isActive` : `` }`} viewBox="0 0 24 24">
@@ -336,11 +352,14 @@ const Reserva = ( { _id, cuidador, cuidadorActual, mascota, fechaInicio, fechaFi
             </div>
             {/* El desplegable ocupa una fila entera del grid debajo de la info y el lado,
             así al abrirse no desplaza el precio ni los botones */}
-            { estado === 'Confirmada' && mensaje &&
+            { estado === 'Confirmada' && visibles.length > 0 &&
                 <div className={`Reserva-conversacion ${ conversacionAbierta ? `isActive` : `` }`}>
-                    <p className="Reserva-mensajeTexto">“{mensaje}”</p>
-                    <p className="Reserva-mensajeAutor">Tú - reserva de {mascota.nombre}</p>
-                    { respuesta && <p className="Reserva-respuesta">Respuesta de {nombreCuidador}: {respuesta}</p> }
+                    {/* Un párrafo por mensaje, en orden: los del usuario en gris y los del cuidador en verde */}
+                    { visibles.map( ({ _id: idMensaje, autor, texto, fecha }) =>
+                        <p key={idMensaje} className={ autor === 'usuario' ? 'Reserva-mensajeTexto' : 'Reserva-respuesta' }>
+                            <span className="Reserva-mensajeAutor">{ autor === 'usuario' ? 'Tú' : nombreCuidador } · {fecha}</span> {texto}
+                        </p>
+                    )}
                     <button className="Reserva-borrarConversacion" type="button" onClick={borrarConversacion}>Eliminar</button>
                 </div>
             }

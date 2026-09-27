@@ -3,7 +3,7 @@ import { useState, useEffect, useRef, useContext } from 'react'
 import { AuthContext } from '@context/auth-context'
 import { obtenerPrecioServicio } from '@components/precios/precios'
 import { leerFoto } from '@components/fotos/fotos'
-import { NOMBRES_SERVICIO, CLAVES_SERVICIO } from '@const/servicios'
+import { NOMBRES_SERVICIO, CLAVES_SERVICIO, ahora } from '@const/servicios'
 import { pedir } from '@components/peticiones/peticiones'
 import './perfil-cuidador.css'
 
@@ -53,9 +53,14 @@ export const PerfilCuidador = () => {
         }
     }
 
+    /* Cada 15s se vuelven a pedir las reservas, así evitamos tener que depender de recargar para recibir las alertas*/
     useEffect(() => {
         getCuidador()
         getReservas()
+
+        const recarga = setInterval(getReservas, 15000)
+
+        return () => clearInterval(recarga)
     }, [])
 
     const guardarDatos = async ( e ) => {
@@ -158,15 +163,15 @@ export const PerfilCuidador = () => {
         }
     }
 
-    /* Guarda la respuesta del cuidador al mensaje de la reserva */
-    const responderMensaje = async ( _id, respuesta ) => {
+    /* Guarda la conversación de la reserva con los mensajes que le pasen (uno nuevo o los ocultados) */
+    const guardarMensajes = async ( _id, mensajes ) => {
 
         const options = {
             method: 'PATCH',
             headers: {
                 'Content-type': 'application/json'
             },
-            body: JSON.stringify({ respuesta })
+            body: JSON.stringify({ mensajes })
         }
 
         try {
@@ -178,27 +183,8 @@ export const PerfilCuidador = () => {
         }
     }
 
-    /* Borra el mensaje de la reserva vaciando sus campos */
-    const eliminarMensaje = async ( _id ) => {
 
-        const options = {
-            method: 'PATCH',
-            headers: {
-                'Content-type': 'application/json'
-            },
-            body: JSON.stringify({ mensaje: '', respuesta: '' })
-        }
-
-        try {
-            await pedir(`${VITE_EXPRESS}/reservas/${ _id }`, options)
-
-            getReservas()
-        } catch (fallo) {
-            setError( fallo.message )
-        }
-    }
-
-    /* Si la API falla antes de tener el cuidador mostramos el motivo en vez del Cargando */
+    /* Si la API falla antes de tener el cuidador mostramos el motivo */
     if (error && !cuidador) {
         return <p className="AppLayout-error">{error}</p>
     }
@@ -212,7 +198,8 @@ export const PerfilCuidador = () => {
 
     const confirmadas = reservas.filter( ({ estado }) => estado === 'Confirmada')
 
-    const conMensaje = reservas.filter( ({ mensaje }) => mensaje )
+    /* Reservas con algún mensaje que el cuidador no haya borrado de su lado */
+    const conMensaje = reservas.filter( ({ mensajes }) => mensajes.some( ({ borradoPor }) => !borradoPor.includes('cuidador') ) )
 
     const servicios = CLAVES_SERVICIO
         .filter( clave => cuidador.servicios[clave] )
@@ -369,7 +356,7 @@ export const PerfilCuidador = () => {
                     ? <p>No tienes mensajes.</p>
                     : <div className="Panel-mensajes">
                         { conMensaje.map( reserva =>
-                            <Mensaje key={reserva._id} {...reserva} responderMensaje={responderMensaje} eliminarMensaje={eliminarMensaje} />
+                            <Mensaje key={reserva._id} {...reserva} guardarMensajes={guardarMensajes} />
                         )}
                     </div>
                     }
@@ -386,12 +373,15 @@ const Servicio = ( { nombre, precio } ) => {
     return <span className="Panel-etiqueta">{nombre} {precio}€</span>
 }
 
-/* Mensaje recibido de un usuario: se puede responder o eliminar,
+/* Conversación de una reserva vista por el cuidador: se puede responder o eliminar de su lado,
 el cuadro de respuesta se muestra con la clase isActive */
-const Mensaje = ( { _id, usuario, mascota, mensaje, respuesta, responderMensaje, eliminarMensaje } ) => {
+const Mensaje = ( { _id, usuario, mascota, mensajes, guardarMensajes } ) => {
 
     const [ respondiendo, setRespondiendo ] = useState(false)
     const formulario = useRef(null)
+
+    /* Solo los mensajes que el cuidador no ha borrado de su lado */
+    const visibles = mensajes.filter( ({ borradoPor }) => !borradoPor.includes('cuidador') )
 
     const toggleRespondiendo = () => {
         setRespondiendo( prev => !prev )
@@ -402,22 +392,38 @@ const Mensaje = ( { _id, usuario, mascota, mensaje, respuesta, responderMensaje,
 
         const { respuesta } = formulario.current
 
-        await responderMensaje(_id, respuesta.value)
+        if (!respuesta.value.trim()) return
 
+        const nuevo = { autor: 'cuidador', texto: respuesta.value.trim(), fecha: ahora(), borradoPor: [] }
+
+        await guardarMensajes(_id, [...mensajes, nuevo])
+
+        formulario.current.reset()
         setRespondiendo(false)
+    }
+
+    /* Oculta la conversación solo para el cuidador: el usuario sigue viéndola */
+    const eliminar = async () => {
+        const ocultos = mensajes.map( mensaje => ({ ...mensaje, borradoPor: [...mensaje.borradoPor, 'cuidador'] }) )
+
+        await guardarMensajes(_id, ocultos)
     }
 
     return(
         <div className="Mensaje">
-            <p className="Mensaje-texto">“{mensaje}”</p>
             <p className="Mensaje-autor">{usuario.nombre} - reserva de {mascota.nombre}</p>
-            { respuesta && <p className="Mensaje-respuesta">Tu respuesta: {respuesta}</p> }
+            {/* Un párrafo por mensaje, en orden: los del usuario en gris y los otros en verde */}
+            { visibles.map( ({ _id: idMensaje, autor, texto, fecha }) =>
+                <p key={idMensaje} className={ autor === 'usuario' ? 'Mensaje-texto' : 'Mensaje-respuesta' }>
+                    <span className="Mensaje-autor">{ autor === 'usuario' ? usuario.nombre : 'Tú' } · {fecha}</span> {texto}
+                </p>
+            )}
             <div className="Mensaje-acciones">
                 <button className="Mensaje-responder" type="button" onClick={toggleRespondiendo}>Responder</button>
-                <button className="Mensaje-eliminar" type="button" onClick={ () => eliminarMensaje(_id) }>Eliminar</button>
+                <button className="Mensaje-eliminar" type="button" onClick={eliminar}>Eliminar</button>
             </div>
             <form className={`Mensaje-form ${ respondiendo ? `isActive` : `` }`} ref={formulario} onSubmit={enviar}>
-                <input name="respuesta" defaultValue={respuesta} placeholder="Escribe tu respuesta" />
+                <input name="respuesta" placeholder="Escribe tu respuesta" />
                 <button className="Mensaje-enviar" type="submit">Enviar</button>
             </form>
         </div>
