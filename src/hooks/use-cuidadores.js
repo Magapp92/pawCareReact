@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react'
 import { pedir } from '@components/peticiones/peticiones'
 
+/* Hook que carga la lista de cuidadores al entrar y permite buscarlos por ubicación, servicio y animales */
 export const useCuidadores = () => {
 
     const { VITE_EXPRESS } = import.meta.env
@@ -26,6 +27,7 @@ export const useCuidadores = () => {
         getCuidadores()
     }, [])
 
+    /* La API filtra por servicio o por ubicación; el resto de filtros los aplicamos aquí sobre la lista */
     const buscarCuidadores = async (ubicacion, servicio, animales) => {
 
         let url = `${VITE_EXPRESS}/cuidadores`

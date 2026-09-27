@@ -21,7 +21,7 @@ export const AuthProvider = ({ children }) => {
     const iniciarSesion = (datos) => {
 
         localStorage.setItem('usuario', JSON.stringify(datos))
-        /* El token va en su propia clave para que las peticiones lo lean sin parsear la sesión */
+        /* Guardamos el token aparte para que las peticiones lo lean directamente */
         localStorage.setItem('token', datos.token)
 
         setUsuario(datos)

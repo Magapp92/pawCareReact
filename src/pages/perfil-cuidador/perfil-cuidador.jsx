@@ -53,7 +53,7 @@ export const PerfilCuidador = () => {
         }
     }
 
-    /* Cada 15s se vuelven a pedir las reservas, así evitamos tener que depender de recargar para recibir las alertas*/
+    /* Cada 15s se vuelven a pedir las reservas, así evitamos tener que depender de recargar para recibir las alertas */
     useEffect(() => {
         getCuidador()
         getReservas()

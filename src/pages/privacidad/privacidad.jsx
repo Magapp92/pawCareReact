@@ -1,12 +1,14 @@
 
 import './privacidad.css'
 
+/* Página estática con la política de privacidad, enlazada desde el footer */
 export const Privacidad = () => {
 
     return (
         <main className="Privacidad">
             <h1>Política de privacidad</h1>
 
+            {/* Cada apartado lleva su título y un párrafo de texto */}
             <h2>Datos que recogemos</h2>
             <p>
                 Al registrarte guardamos tu nombre, correo electrónico, teléfono y dirección,

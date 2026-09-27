@@ -1,12 +1,14 @@
 
 import './aviso-legal.css'
 
+/* Página estática con el aviso legal, enlazada desde el footer */
 export const AvisoLegal = () => {
 
     return (
         <main className="AvisoLegal">
             <h1>Aviso legal</h1>
 
+            {/* Cada apartado lleva su título y un párrafo de texto */}
             <h2>Titularidad del sitio</h2>
             <p>
                 PawCare es una aplicación web desarrollada como proyecto académico para el

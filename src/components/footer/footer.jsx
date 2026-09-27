@@ -2,6 +2,7 @@
 import { Link, useLocation } from 'react-router-dom'
 import "./footer.css"
 
+/* Pie de página con la marca, los enlaces legales y el contacto */
 export const Footer = () => {
 
     const location = useLocation()

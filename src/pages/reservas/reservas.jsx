@@ -38,7 +38,7 @@ export const Reservas = () => {
         }
     }
 
-    /* Cada 15s se vuelven a pedir las reservas para ver las respuestas del cuidador sintener que recargar */
+    /* Cada 15s se vuelven a pedir las reservas para ver las respuestas del cuidador sin tener que recargar */
     useEffect(() => {
         getReservas()
         getCuidadores()

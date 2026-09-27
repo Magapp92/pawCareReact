@@ -18,6 +18,7 @@ export const pedir = async ( url, options = {} ) => {
         throw new Error('No se ha podido conectar con el servidor')
     }
 
+    /* Leemos el cuerpo de la respuesta; si no es JSON (por ejemplo un error del servidor) seguimos sin romper */
     const { message, data } = await respuesta.json().catch( () => ({}) )
 
     if (!respuesta.ok) {
