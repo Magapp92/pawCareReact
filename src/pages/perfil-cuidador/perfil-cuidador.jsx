@@ -279,7 +279,7 @@ export const PerfilCuidador = () => {
                             {cuidador.edad} años
                         </p>
                          <p>
-                            <span className="Panel-dato">Ubicacion:</span>
+                            <span className="Panel-dato">Ubicación:</span>
                             {cuidador.ubicacion}
                         </p>
                         <p>

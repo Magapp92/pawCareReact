@@ -41,11 +41,11 @@ export const Inicio = () => {
         <section className="Inicio">
             <h1 className="Inicio-h1">Encuentra el cuidador perfecto para ti</h1>
             <p className="Inicio-subtitulo">
-                 El cuidado mas profesional para tu mascota cuando lo necesites.
+                 El cuidado más profesional para tu mascota cuando lo necesites.
             </p>
             <form className="Inicio-buscador" ref={formulario} onSubmit={buscarCuidador}>
                 {/* aria-label da nombre accesible a los campos, que solo tienen placeholder */}
-                <input type="text" name="ubicacion" placeholder="¿Donde buscas?" aria-label="Ubicación" />
+                <input type="text" name="ubicacion" placeholder="¿Dónde buscas?" aria-label="Ubicación" />
                 <select name="servicio" aria-label="Servicio">
                     <option value="">Servicio</option>
                     <option value="cuidadoDiario">Guardería</option>

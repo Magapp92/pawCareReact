@@ -25,7 +25,7 @@ export const Footer = () => {
                     <div className="Footer-col">
                       <h4 className="Footer-h4">Legal</h4>
                       <Link to="/Aviso-legal">Aviso legal</Link>
-                      <Link to="/Privacidad">Politica de privacidad</Link>
+                      <Link to="/Privacidad">Política de privacidad</Link>
                     </div>
                     <div className="Footer-col">
                       <h4 className="Footer-h4">Contacto</h4>

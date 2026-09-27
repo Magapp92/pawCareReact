@@ -50,6 +50,28 @@ const Wrapper = () => {
         }
     }, [usuario, location])
 
+    /* Los avisos de los formularios (campo vacío, email mal, fecha pasada) los pone el navegador
+    en su idioma; los escuchamos y los ponemos en español. Al escribir se limpia el aviso */
+    useEffect(() => {
+        const avisar = ( e ) => {
+            const { validity } = e.target
+            const mensaje = validity.valueMissing ? 'Rellena este campo'
+                : validity.typeMismatch ? 'Escribe un correo válido'
+                : validity.rangeUnderflow ? 'La fecha no puede ser anterior a hoy'
+                : ''
+            e.target.setCustomValidity(mensaje)
+        }
+        const limpiar = ( e ) => e.target.setCustomValidity('')
+
+        document.addEventListener('invalid', avisar, true)
+        document.addEventListener('input', limpiar, true)
+
+        return () => {
+            document.removeEventListener('invalid', avisar, true)
+            document.removeEventListener('input', limpiar, true)
+        }
+    }, [])
+
     return (
         <div className="AppLayout">
             <Header/>
