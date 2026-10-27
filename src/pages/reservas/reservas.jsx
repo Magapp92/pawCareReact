@@ -91,7 +91,8 @@ export const Reservas = () => {
                     <Reserva key={reserva._id} {...reserva}
                         cuidadorActual={ cuidadores.find( ({ _id }) => _id === reserva.cuidador.cuidadorId ) }
                         editarReserva={ editarReserva }
-                        cancelarReserva={ cancelarReserva } />
+                        cancelarReserva={ cancelarReserva }
+                        setError={ setError } />
                 ) }
             </div>
         </main>
@@ -100,7 +101,7 @@ export const Reservas = () => {
 /* Tarjeta de una reserva: en modo vista muestra los datos y en modo edición un formulario
 para cambiar el servicio y las fechas */
 const Reserva = ( { _id, cuidador, cuidadorActual, mascota, fechaInicio, fechaFin, tipoServicio,
-    estado, coste, comentario, mensajes = [], editarReserva, cancelarReserva } ) => {
+    estado, coste, comentario, mensajes = [], editarReserva, cancelarReserva, setError } ) => {
 
     const { VITE_EXPRESS } = import.meta.env
 
